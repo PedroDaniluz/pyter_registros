@@ -1,0 +1,25 @@
+main {
+    display: flex;
+}
+
+.register {
+    color: var(--grey-strong);
+    width: 100%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.register h1 {
+    font-family: 'Franie';
+    font-weight: 600;
+    font-size: 2.5rem;
+    margin-bottom: 32px;
+}
+
+.squareDiv {
+    border: 2px solid var(--grey-stroke);
+    border-radius: 12px;
+    flex-grow: 1;
+    padding: 32px 44px;
+}
