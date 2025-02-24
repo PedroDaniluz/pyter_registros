@@ -1,10 +1,10 @@
 import './InputField.css'
 
-export default function InputField() {
+export default function InputField({title, placeholder, type, id, pattern}) {
     return (
         <div className='textField'>
-            <label for='clientNameIn' className='textField--title'>Nome</label>
-            <input id='clientNameIn' placeholder='aaaaaaaaaa' className='textField--field'/>
+            <label for={id} className='textField--title'>{title}</label>
+            <input type={type} id={id} placeholder={placeholder} className='textField--field'/>
         </div>
     )
 }

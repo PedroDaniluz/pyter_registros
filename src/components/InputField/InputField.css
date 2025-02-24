@@ -1,4 +1,5 @@
 .textField {
+    width: 100%;
     font-family: 'Inter';
     display: flex;
     flex-direction: column;

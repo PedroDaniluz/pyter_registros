@@ -17,9 +17,25 @@ main {
     margin-bottom: 32px;
 }
 
-.squareDiv {
+.rsquareDiv {
     border: 2px solid var(--grey-stroke);
     border-radius: 12px;
     flex-grow: 1;
     padding: 32px 44px;
+}
+
+.pedidos {
+    margin-bottom: 36px;
+}
+
+.pedidos h2 {
+    font-family: 'Franie';
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+}
+
+.pedidos-input{
+    display: flex;
+    gap: 10px;
 }
