@@ -24,18 +24,19 @@ main {
     padding: 32px 44px;
 }
 
-.pedidos {
+.stdIn {
     margin-bottom: 36px;
 }
 
-.pedidos h2 {
+.stdIn h2 {
     font-family: 'Franie';
     font-weight: 600;
     font-size: 1.5rem;
     margin-bottom: 24px;
 }
 
-.pedidos-input{
+.stdIn--inputs{
     display: flex;
     gap: 10px;
+    flex-grow: 1;
 }
