@@ -2,6 +2,7 @@ import './Register.css'
 import NavBar from '../../components/NavBar'
 import InputField from '../../components/InputField'
 import SearchableDropdown from '../../components/DropDown'
+import SwitchButton from '../../components/SwitchButton'
 
 export default function Register() {
     return (
@@ -21,7 +22,7 @@ export default function Register() {
                     <div className='stdIn'>
                         <h2>Pedido</h2>
                         <div className='stdIn--inputs'>
-                            <InputField title='Data' placeholder='Insira o nome do cliente' id={'nome'} type={'date'} width={50}/>
+                            <InputField title='Data' placeholder='Insira o nome do cliente' id={'data'} type={'date'} width={50}/>
                             <InputField title='Prazo (opcional)' placeholder='Insira o telefone do cliente' id={'tel'} type={'date'} width={50}/>
                             <SearchableDropdown title={'Instituição'} placeholder={'Selecione a instituição'}/>
                         </div>
@@ -32,9 +33,13 @@ export default function Register() {
                             <SearchableDropdown title={'Produto'} placeholder={'Selecione'}/>
                             <SearchableDropdown title={'Categoria'} placeholder={'Selecione'}/>
                             <SearchableDropdown title={'Material'} placeholder={'Selecione'}/>
-                            <InputField title='Quantidade' placeholder='1' id={'nome'} type={'number'} width={10}/>
+                            <InputField title='Quantidade' id={'qnt'} type={'number'} width={10} defaultValue={1}/>
                             <SearchableDropdown title={'Tamanho'} placeholder={''} width={50}/>
-                            <InputField title='Preço' placeholder='R$' id={'nome'} type={'text'} width={10} mask={'currency'}/>
+                            <InputField title='Preço' placeholder='R$' id={'preco'} type={'text'} width={10} mask={'currency'}/>
+                        </div>
+                        <div className='stdIn--inputs'>
+                            <InputField title='Observações (opcional)' placeholder='Insira os detalhes específicos do produto' id={'obs'} type={'text'}/>
+                            <SwitchButton title={'Adicionais'} placeholder={'Adicionais pagos'} width={25}/>
                         </div>
                     </div>
                 </div>

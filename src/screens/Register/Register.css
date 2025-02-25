@@ -20,23 +20,24 @@ main {
 .rsquareDiv {
     border: 2px solid var(--grey-stroke);
     border-radius: 12px;
-    flex-grow: 1;
-    padding: 32px 44px;
+    padding: 0 44px 36px;
 }
 
 .stdIn {
-    margin-bottom: 36px;
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px
 }
 
 .stdIn h2 {
     font-family: 'Franie';
     font-weight: 600;
     font-size: 1.5rem;
-    margin-bottom: 24px;
+    margin-bottom: 8px;
 }
 
 .stdIn--inputs{
     display: flex;
     gap: 10px;
-    flex-grow: 1;
 }
