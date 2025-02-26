@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import './Register.css'
 import NavBar from '../../components/NavBar'
 import InputField from '../../components/InputField'
@@ -5,6 +6,9 @@ import SearchableDropdown from '../../components/DropDown'
 import SwitchButton from '../../components/SwitchButton'
 
 export default function Register() {
+    const [isAdditionalActive, setIsAdditionalActive] = useState(false);
+    
+
     return (
         <main>
             <NavBar/>
@@ -39,8 +43,15 @@ export default function Register() {
                         </div>
                         <div className='stdIn--inputs'>
                             <InputField title='Observações (opcional)' placeholder='Insira os detalhes específicos do produto' id={'obs'} type={'text'}/>
-                            <SwitchButton title={'Adicionais'} placeholder={'Adicionais pagos'} width={25}/>
+                            <SwitchButton title={'Adicionais'} placeholder={'Adicionais pagos'} width={25} onToggleChange={setIsAdditionalActive}/>
                         </div>
+                        {isAdditionalActive && (
+                                <div className='stdIn--inputs'>
+                                    <SearchableDropdown title={'Adicional'} placeholder={'Selecione o item adicional'}/>
+                                    <InputField title='Valor' placeholder='R$' id={'valor'} type={'text'} width={25} mask={'currency'}/>
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
             </section>
