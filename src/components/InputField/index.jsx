@@ -2,7 +2,7 @@ import './InputField.css';
 import InputMask from '@mona-health/react-input-mask';
 import { useState } from 'react';
 
-export default function InputField({ title, placeholder, type, id, mask, width = 100, defaultValue }) {
+export default function InputField({ title, placeholder, type, id, mask, width = 100, defaultValue, onChange}) {
     const [value, setValue] = useState('');
 
     const formatCurrency = (input) => {
@@ -15,8 +15,15 @@ export default function InputField({ title, placeholder, type, id, mask, width =
     };
 
     const handleChange = (e) => {
+        let newValue = e.target.value;
         if (mask === "currency") {
-            setValue(formatCurrency(e.target.value));
+            newValue = formatCurrency(e.target.value);
+        }
+
+        setValue(newValue);
+
+        if(onChange) {
+            onChange(newValue);
         }
     };
 
@@ -29,7 +36,9 @@ export default function InputField({ title, placeholder, type, id, mask, width =
                     mask={mask}
                     type={type}
                     id={id}
+                    value = {value}
                     placeholder={placeholder}
+                    onChange = {handleChange}
                     className='textField--field'
                 />
             )}

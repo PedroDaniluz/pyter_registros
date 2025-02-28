@@ -1,4 +1,4 @@
-import Register from "./screens/Register"
+import Register from "./pages/Register"
 
 function App() {
 

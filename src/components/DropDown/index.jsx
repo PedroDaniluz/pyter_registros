@@ -9,8 +9,15 @@ const options = [
 ];
 
 
-export default function SearchableDropdown({title, placeholder, width = 100}) {
-  const [selected, setSelected] = useState();
+export default function SearchableDropdown({title, placeholder, width = 100, onChange}) {
+  const [selected, setSelected] = useState(null);
+
+  const handleChange = (option) => {
+    setSelected(option);
+    if (onChange) {
+      onChange(option ? option.value : "");
+    }
+  }
 
   const customStyles = {
     control: (provided, state) => ({
@@ -54,7 +61,7 @@ export default function SearchableDropdown({title, placeholder, width = 100}) {
         <Select
             options={options}
             value={selected}
-            onChange={setSelected}
+            onChange={handleChange}
             placeholder={placeholder}
             isSearchable
             styles={customStyles}
