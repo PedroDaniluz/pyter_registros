@@ -3,6 +3,7 @@
     height: 100vh;
     padding: 32px 48px;
     border-right: 2px solid var(--grey-stroke);
+    flex-grow: 1;
 }
 
 .logo {

@@ -2,18 +2,18 @@ import './InputField.css';
 import InputMask from '@mona-health/react-input-mask';
 import { useState } from 'react';
 
-export default function InputField({ title, placeholder, type, id, mask, width = 100, defaultValue, onChange}) {
+export default function InputField({ id, title, placeholder, type, mask, defaultValue, onChange, width = 100 }) {
     const [value, setValue] = useState('');
 
     const formatCurrency = (input) => {
-        let num = input.replace(/\D/g, ''); // Remove tudo que não for número
+        let num = input.replace(/\D/g, '');
         let formatted = (Number(num) / 100).toLocaleString('pt-BR', {
             style: 'currency',
             currency: 'BRL'
         });
         return formatted;
     };
-
+ 
     const handleChange = (e) => {
         let newValue = e.target.value;
         if (mask === "currency") {
@@ -33,22 +33,22 @@ export default function InputField({ title, placeholder, type, id, mask, width =
 
             {mask && mask !== "currency" && (
                 <InputMask
-                    mask={mask}
+                    className='textField--field'
                     type={type}
                     id={id}
-                    value = {value}
                     placeholder={placeholder}
+                    mask={mask}
+                    value = {value}
                     onChange = {handleChange}
-                    className='textField--field'
                 />
             )}
 
             {(!mask || mask === "currency") && (
                 <input
+                    className='textField--field'
                     type={type}
                     id={id}
                     placeholder={placeholder}
-                    className='textField--field'
                     value={mask === "currency" ? value : undefined}
                     min={0}
                     defaultValue={defaultValue}

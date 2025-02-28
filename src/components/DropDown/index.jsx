@@ -9,7 +9,7 @@ const options = [
 ];
 
 
-export default function SearchableDropdown({title, placeholder, width = 100, onChange}) {
+export default function SearchableDropdown({ title, placeholder, onChange, width = 100 }) {
   const [selected, setSelected] = useState(null);
 
   const handleChange = (option) => {
@@ -61,10 +61,10 @@ export default function SearchableDropdown({title, placeholder, width = 100, onC
         <Select
             options={options}
             value={selected}
-            onChange={handleChange}
             placeholder={placeholder}
             isSearchable
             styles={customStyles}
+            onChange={handleChange}
         />
     </div>
     

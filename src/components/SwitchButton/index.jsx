@@ -2,7 +2,7 @@ import { useState } from 'react'
 import '../../components/InputField/InputField.css'
 import './SwitchButton.css'
 
-export default function SwitchButton({title, placeholder, width = 100, onToggleChange}) {
+export default function SwitchButton({ title, placeholder, onToggleChange, width = 100 }) {
     const [toggled, setToggled] = useState(false);
 
     const handleToggle = () => {
