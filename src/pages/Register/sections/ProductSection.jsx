@@ -5,6 +5,7 @@ import SwitchButton from '../../../components/SwitchButton';
 
 export default function ProductSection() {
     const [products, setProducts] = useState([{
+        id: crypto.randomUUID(),
         produto: '',
         categoria: '',
         material: '',
@@ -13,18 +14,19 @@ export default function ProductSection() {
         preco: '',
         observacoes: '',
         adicionaisAtivos: false,
-        adicional: '',
-        valorAdicional: ''
+        adicionais: []
     }]);
 
-    const handleChange = (index, key, value) => {
-        const newProducts = [...products];
-        newProducts[index][key] = value;
-        setProducts(newProducts);
+    const handleChange = (id, key, value) => {
+        setProducts(products.map(product =>
+            product.id === id ? { ...product, [key]: value } : product
+        ));
     };
+
 
     const addProduct = () => {
         setProducts([...products, {
+            id: crypto.randomUUID(),
             produto: '',
             categoria: '',
             material: '',
@@ -33,102 +35,150 @@ export default function ProductSection() {
             preco: '',
             observacoes: '',
             adicionaisAtivos: false,
-            adicional: '',
-            valorAdicional: ''
+            adicionais: []
         }]);
     };
 
+    const removeProduct = (id) => {
+        const confirmDelete = window.confirm("Tem certeza que deseja remover este produto?");
+        if (confirmDelete) {
+            setProducts(products.filter(product => product.id !== id));
+        }
+    };
+
+    const addAdicional = (id) => {
+        setProducts(products.map(product =>
+            product.id === id ? {
+                ...product,
+                adicionais: [...product.adicionais, { adicional: '', valorAdicional: '' }]
+            } : product
+        ));
+    };
+
+    const removeAdicional = (productId) => {
+        setProducts(products.map(product =>
+            product.id === productId ? {
+                ...product,
+                adicionais: product.adicionais.slice(0, -1)
+            } : product
+        ));
+    };
+
+    const handleAdicionalChange = (productId, index, key, value) => {
+        setProducts(products.map(product =>
+            product.id === productId ? {
+                ...product,
+                adicionais: product.adicionais.map((adicional, idx) =>
+                    idx === index ? { ...adicional, [key]: value } : adicional
+                )
+            } : product
+        ));
+    };
+
+    const submit = (e) => {
+        e.preventDefault();
+        console.log(products)
+    }
+
     return (
-        <section className='stdIn'>
+        <form onSubmit={submit} className='stdIn'>
             <h2>Produtos</h2>
-            {products.map((product, index) => (
-                <div className="product-inputs" key={index}>
+            {products.map((product) => (
+                <div className="product-inputs" key={product.id}>
+                    <button onClick={() => removeProduct(product.id)} className='remove-btn'>
+                        <img src="./src/assets/images/icons/darkVariants/remove.svg" alt="icone de X" />
+                    </button>
                     <div className='stdIn--inputs'>
-                        <SearchableDropdown 
-                            title={'Produto'} 
-                            placeholder={'Selecione'} 
+                        <SearchableDropdown
+                            title={'Produto'}
+                            placeholder={'Selecione'}
                             value={product.produto}
-                            onChange={(value) => handleChange(index, 'produto', value)} 
+                            onChange={(value) => handleChange(product.id, 'produto', value)}
                         />
-                        <SearchableDropdown 
-                            title={'Categoria'} 
-                            placeholder={'Selecione'} 
+                        <SearchableDropdown
+                            title={'Categoria'}
+                            placeholder={'Selecione'}
                             value={product.categoria}
-                            onChange={(value) => handleChange(index, 'categoria', value)} 
+                            onChange={(value) => handleChange(product.id, 'categoria', value)}
                         />
-                        <SearchableDropdown 
-                            title={'Material'} 
-                            placeholder={'Selecione'} 
+                        <SearchableDropdown
+                            title={'Material'}
+                            placeholder={'Selecione'}
                             value={product.material}
-                            onChange={(value) => handleChange(index, 'material', value)} 
+                            onChange={(value) => handleChange(product.id, 'material', value)}
                         />
-                        <InputField 
-                            title='Quantidade' 
-                            id={'qnt'} 
-                            type={'number'} 
-                            width={10} 
+                        <InputField
+                            title={'Quantidade'}
+                            type={'number'}
+                            width={10}
                             value={product.quantidade}
-                            onChange={(e) => handleChange(index, 'quantidade', e.target.value)} 
+                            defaultValue={product.quantidade}
+                            onChange={(value) => handleChange(product.id, 'quantidade', value)}
                         />
-                        <SearchableDropdown 
-                            title={'Tamanho'} 
-                            placeholder={''} 
-                            width={50} 
+                        <SearchableDropdown
+                            title={'Tamanho'}
+                            placeholder={''}
+                            width={50}
                             value={product.tamanho}
-                            onChange={(value) => handleChange(index, 'tamanho', value)} 
+                            onChange={(value) => handleChange(product.id, 'tamanho', value)}
                         />
-                        <InputField 
-                            title='Preço' 
-                            placeholder='R$' 
-                            id={'preco'} 
-                            type={'text'} 
-                            width={10} 
-                            mask={'currency'} 
+                        <InputField
+                            title={'Preço'}
+                            placeholder={'R$ 0,00'}
+                            type={'text'}
+                            width={10}
+                            mask={'currency'}
                             value={product.preco}
-                            onChange={(e) => handleChange(index, 'preco', e.target.value)} 
+                            onChange={(value) => handleChange(product.id, 'preco', value)}
                         />
                     </div>
                     <div className='stdIn--inputs'>
-                        <InputField 
-                            title='Observações (opcional)' 
-                            placeholder='Insira os detalhes específicos do produto' 
-                            id={'obs'} 
-                            type={'text'} 
+                        <InputField
+                            title={'Observações (opcional)'}
+                            placeholder={'Insira os detalhes específicos do produto'}
+                            type={'text'}
                             value={product.observacoes}
-                            onChange={(e) => handleChange(index, 'observacoes', e.target.value)} 
+                            onChange={(value) => handleChange(product.id, 'observacoes', value)}
                         />
-                        <SwitchButton 
-                            title={'Adicionais'} 
-                            placeholder={'Adicionais pagos'} 
-                            width={25} 
+                        <SwitchButton
+                            title={'Adicionais'}
+                            placeholder={'Adicionais pagos'}
+                            width={25}
                             value={product.adicionaisAtivos}
-                            onToggleChange={(value) => handleChange(index, 'adicionaisAtivos', value)} 
+                            onToggleChange={(value) => handleChange(product.id, 'adicionaisAtivos', value)}
                         />
                     </div>
                     {product.adicionaisAtivos && (
-                        <div className='stdIn--inputs'>
-                            <SearchableDropdown 
-                                title={'Adicional'} 
-                                placeholder={'Selecione o item adicional'} 
-                                value={product.adicional}
-                                onChange={(value) => handleChange(index, 'adicional', value)} 
-                            />
-                            <InputField 
-                                title='Valor' 
-                                placeholder='R$' 
-                                id={'valor'} 
-                                type={'text'} 
-                                width={25} 
-                                mask={'currency'} 
-                                value={product.valorAdicional}
-                                onChange={(e) => handleChange(index, 'valorAdicional', e.target.value)} 
-                            />
-                        </div>
+                        <>
+                            {product.adicionais.map((adicional, index) => (
+                                <div key={index} className='stdIn--inputs'>
+                                    <SearchableDropdown
+                                        title={'Adicional'}
+                                        placeholder={'Selecione o item adicional'}
+                                        value={adicional.adicional}
+                                        onChange={(value) => handleAdicionalChange(product.id, index, 'adicional', value)}
+                                    />
+                                    <InputField
+                                        title={'Valor'}
+                                        placeholder={'R$'}
+                                        type={'text'}
+                                        width={25}
+                                        mask={'currency'}
+                                        value={adicional.valorAdicional}
+                                        onChange={(value) => handleAdicionalChange(product.id, index, 'valorAdicional', value)}
+                                    />
+                                </div>
+                            ))}
+                            <div className='add-btns'>
+                                <button className='add-btn add' onClick={() => addAdicional(product.id)}><u>+ Inserir adicional</u></button>
+                                <button className='add-btn rmv' onClick={() => removeAdicional(product.id)}><u>- Remover adicional</u></button>
+                            </div>
+                        </>
                     )}
                 </div>
             ))}
-            <button onClick={addProduct}>Adicionar Produto</button>
-            <button onClick={() => console.log(products)}>Salvar</button>
-        </section>
+            <button type='button' className='addProd-btn' onClick={addProduct}>Adicionar Produto</button>
+            <button type='submit'>salvar</button>
+        </form>
     );
 }

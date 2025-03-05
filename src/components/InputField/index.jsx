@@ -2,8 +2,9 @@ import './InputField.css';
 import InputMask from '@mona-health/react-input-mask';
 import { useState } from 'react';
 
-export default function InputField({ id, title, placeholder, type, mask, defaultValue, onChange, width = 100 }) {
-    const [value, setValue] = useState('');
+export default function InputField({ id, title, placeholder, required = true, type, mask, defaultValue, onChange, width = 100 }) {
+    const [value, setValue] = useState(defaultValue || '');
+
 
     const formatCurrency = (input) => {
         let num = input.replace(/\D/g, '');
@@ -14,44 +15,46 @@ export default function InputField({ id, title, placeholder, type, mask, default
         return formatted;
     };
  
+
     const handleChange = (e) => {
         let newValue = e.target.value;
+
         if (mask === "currency") {
-            newValue = formatCurrency(e.target.value);
+            newValue = formatCurrency(newValue);
         }
 
         setValue(newValue);
 
-        if(onChange) {
+        if (onChange) {
             onChange(newValue);
         }
     };
 
     return (
-        <div className='textField' style={{ width: `${width}%` }}>
-            <label htmlFor={id} className='textField--title'>{title}</label>
+        <div className="textField" style={{ width: `${width}%` }}>
+            <label htmlFor={id} className="textField--title">{title}</label>
 
-            {mask && mask !== "currency" && (
+            {mask && mask !== "currency" ? (
+                // Com máscara aplicada
                 <InputMask
-                    className='textField--field'
-                    type={type}
                     id={id}
+                    required={required}
+                    className="textField--field"
+                    type={type}
                     placeholder={placeholder}
                     mask={mask}
-                    value = {value}
-                    onChange = {handleChange}
+                    value={value}
+                    onChange={handleChange}
                 />
-            )}
-
-            {(!mask || mask === "currency") && (
+            ) : (
                 <input
-                    className='textField--field'
-                    type={type}
                     id={id}
+                    required={required}
+                    className="textField--field"
+                    type={type}
                     placeholder={placeholder}
-                    value={mask === "currency" ? value : undefined}
-                    min={0}
-                    defaultValue={defaultValue}
+                    value={value}
+                    min={1}
                     onChange={handleChange}
                 />
             )}

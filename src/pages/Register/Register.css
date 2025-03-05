@@ -37,7 +37,64 @@ main {
 }
 
 .stdIn--inputs{
-    margin-top: 8px;
     display: flex;
     gap: 10px;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.product-inputs {
+    display: flex;
+    flex-direction: column;
+    align-items:end;
+}
+
+.remove-btn {
+    margin-top: 4px;
+    padding: 0;
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.remove-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.addProd-btn {
+    margin-top: 16px;
+    font-family: 'Inter';
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--grey-soft);
+    padding: 12px 0;
+    background-color: #EFEFEF;
+    border: 1px solid var(--grey-stroke);
+    border-radius: 6px;
+}
+
+.add-btns {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.add-btn {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-family: 'Inter';
+    font-size: 0.8rem;
+}
+
+.add-btn.add{
+    color: rgb(26, 26, 184);
+}
+
+.add-btn.rmv{
+    color: rgb(226, 45, 45);
 }

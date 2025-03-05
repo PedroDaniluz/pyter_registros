@@ -19,20 +19,20 @@ export default function OrderSection() {
     return (
         <section className='stdIn'>
             <h2>Pedido</h2>
-            <div className='stdIn--inputs'>
+            <form className='stdIn--inputs'>
                 <InputField 
                     title='Data' 
-                    placeholder='Insira o nome do cliente' 
-                    id={'data'} 
+                    placeholder='Insira o nome do cliente'
                     type={'date'} 
+                    required
                     width={50}
                     onChange={(value) => handleChange('data', value)}
                 />
                 <InputField 
                     title='Prazo (opcional)' 
-                    placeholder='Insira o telefone do cliente' 
-                    id={'tel'} 
+                    placeholder='Insira o telefone do cliente'
                     type={'date'} 
+                    required
                     width={50} 
                     onChange={(value) => handleChange('prazo', value)}
                 />
@@ -41,7 +41,7 @@ export default function OrderSection() {
                     placeholder={'Selecione a instituição'} 
                     onChange={(value) => handleChange('instituicao', value)}
                 />
-            </div>
+            </form>
         </section>
     )
 }
