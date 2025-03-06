@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InputField from '../../../components/InputField';
 import SearchableDropdown from '../../../components/DropDown';
 import SwitchButton from '../../../components/SwitchButton';
 
-export default function ProductSection() {
+export default function ProductSection({ updateData }) {
     const [products, setProducts] = useState([{
         id: crypto.randomUUID(),
         produto: '',
@@ -23,6 +23,10 @@ export default function ProductSection() {
         ));
     };
 
+    useEffect(() => {
+        updateData(products);
+    }, [products]);
+
 
     const addProduct = () => {
         setProducts([...products, {
@@ -40,9 +44,13 @@ export default function ProductSection() {
     };
 
     const removeProduct = (id) => {
-        const confirmDelete = window.confirm("Tem certeza que deseja remover este produto?");
-        if (confirmDelete) {
-            setProducts(products.filter(product => product.id !== id));
+        if (products.length >= 2) {
+            const confirmDelete = window.confirm("Tem certeza que deseja remover este produto?");
+            if (confirmDelete) {
+                setProducts(products.filter(product => product.id !== id));
+            }
+        } else {
+            alert("É necessário ao menos 1 produto por pedido")
         }
     };
 
@@ -75,17 +83,12 @@ export default function ProductSection() {
         ));
     };
 
-    const submit = (e) => {
-        e.preventDefault();
-        console.log(products)
-    }
-
     return (
-        <form onSubmit={submit} className='stdIn'>
+        <div className='stdIn'>
             <h2>Produtos</h2>
             {products.map((product) => (
                 <div className="product-inputs" key={product.id}>
-                    <button onClick={() => removeProduct(product.id)} className='remove-btn'>
+                    <button type='button' onClick={() => removeProduct(product.id)} className='remove-btn'>
                         <img src="./src/assets/images/icons/darkVariants/remove.svg" alt="icone de X" />
                     </button>
                     <div className='stdIn--inputs'>
@@ -136,6 +139,7 @@ export default function ProductSection() {
                         <InputField
                             title={'Observações (opcional)'}
                             placeholder={'Insira os detalhes específicos do produto'}
+                            required={false}
                             type={'text'}
                             value={product.observacoes}
                             onChange={(value) => handleChange(product.id, 'observacoes', value)}
@@ -170,15 +174,14 @@ export default function ProductSection() {
                                 </div>
                             ))}
                             <div className='add-btns'>
-                                <button className='add-btn add' onClick={() => addAdicional(product.id)}><u>+ Inserir adicional</u></button>
-                                <button className='add-btn rmv' onClick={() => removeAdicional(product.id)}><u>- Remover adicional</u></button>
+                                <button type='button' className='add-btn add' onClick={() => addAdicional(product.id)}><u>+ Inserir adicional</u></button>
+                                <button type='button' className='add-btn rmv' onClick={() => removeAdicional(product.id)}><u>- Remover adicional</u></button>
                             </div>
                         </>
                     )}
                 </div>
             ))}
             <button type='button' className='addProd-btn' onClick={addProduct}>Adicionar Produto</button>
-            <button type='submit'>salvar</button>
-        </form>
+        </div>
     );
 }

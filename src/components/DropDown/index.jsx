@@ -9,7 +9,7 @@ const options = [
 ];
 
 
-export default function SearchableDropdown({ title, placeholder, onChange, width = 100 }) {
+export default function SearchableDropdown({ title, placeholder, required = true, onChange, width = 100 }) {
   const [selected, setSelected] = useState(null);
 
   const handleChange = (option) => {
@@ -57,16 +57,17 @@ export default function SearchableDropdown({ title, placeholder, onChange, width
 
   return (
     <div className='textField' style={{ width: `${width}%` }}>
-        <label className='textField--title'>{title}</label>
-        <Select
-            options={options}
-            value={selected}
-            placeholder={placeholder}
-            isSearchable
-            styles={customStyles}
-            onChange={handleChange}
-        />
+      <label className='textField--title'>{title}</label>
+      <Select
+        required={required}
+        options={options}
+        value={selected}
+        placeholder={placeholder}
+        isSearchable
+        styles={customStyles}
+        onChange={handleChange}
+      />
     </div>
-    
+
   );
 }

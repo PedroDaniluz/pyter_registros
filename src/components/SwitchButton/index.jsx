@@ -21,6 +21,7 @@ export default function SwitchButton({ title, placeholder, onToggleChange, width
             <div className='switch'>
                 <span>{placeholder}</span>
                 <button 
+                    type='button'
                     className={`toggleBtn ${toggled? 'toggled' : ''}`}
                     onClick={handleToggle}
                 >

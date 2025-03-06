@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchableDropdown from '../../../components/DropDown';
 import InputField from '../../../components/InputField';
 
-export default function OrderSection() {
-    const[orderData, setOrderData] = useState({
+export default function OrderSection({ updateData }) {
+    const [orderData, setOrderData] = useState({
         data: '',
         prazo: '',
         instituicao: ''
@@ -16,32 +16,35 @@ export default function OrderSection() {
         }));
     };
 
+    useEffect(() => {
+        updateData(orderData);
+    }, [orderData]);
+
     return (
         <section className='stdIn'>
             <h2>Pedido</h2>
-            <form className='stdIn--inputs'>
+            <div className='stdIn--inputs'>
                 <InputField 
-                    title='Data' 
-                    placeholder='Insira o nome do cliente'
+                    title='Data'
                     type={'date'} 
                     required
                     width={50}
                     onChange={(value) => handleChange('data', value)}
                 />
                 <InputField 
-                    title='Prazo (opcional)' 
-                    placeholder='Insira o telefone do cliente'
+                    title='Prazo (opcional)'
                     type={'date'} 
-                    required
+                    required={false}
                     width={50} 
                     onChange={(value) => handleChange('prazo', value)}
                 />
                 <SearchableDropdown 
-                    title={'Instituição'} 
-                    placeholder={'Selecione a instituição'} 
+                    title={'Instituição (opcional)'} 
+                    placeholder={'Selecione a instituição'}
+                    required={false}
                     onChange={(value) => handleChange('instituicao', value)}
                 />
-            </form>
+            </div>
         </section>
-    )
+    );
 }

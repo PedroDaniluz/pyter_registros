@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InputField from '../../../components/InputField';
 
-export default function ClientSection() {
+export default function ClientSection({ updateData }) {
     const [clientData, setClientData] = useState({
         nome: '',
         telefone: '',
@@ -15,10 +15,14 @@ export default function ClientSection() {
         }));
     };
 
+    useEffect(() => {
+        updateData(clientData);
+    }, [clientData]);
+
     return (
         <section className='stdIn'>
             <h2>Clientes</h2>
-            <form className='stdIn--inputs'>
+            <div className='stdIn--inputs'>
                 <InputField 
                     title='Telefone' 
                     placeholder='Insira o telefone do cliente' 
@@ -26,6 +30,7 @@ export default function ClientSection() {
                     mask={'(99) 99999-9999'} 
                     width={80} 
                     onChange={(value) => handleChange('telefone', value)}
+                    onInvalid={(e) => e.target.setCustomValidity("Este campo é obrigatório")}
                 />
                 <InputField 
                     title='Nome' 
@@ -39,7 +44,7 @@ export default function ClientSection() {
                     type={'email'} 
                     onChange={(value) => handleChange('email', value)}
                 />
-            </form>
+            </div>
         </section>
     )
 }
