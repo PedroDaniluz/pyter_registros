@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import InputField from '../../../components/InputField';
 import SearchableDropdown from '../../../components/DropDown';
 import SwitchButton from '../../../components/SwitchButton';
+import { getProdutos } from '../../../services/Api'
 
 export default function ProductSection({ updateData }) {
     const [products, setProducts] = useState([{
@@ -16,6 +17,16 @@ export default function ProductSection({ updateData }) {
         adicionaisAtivos: false,
         adicionais: []
     }]);
+
+    const [produtos, setProdutos] = useState([]);
+
+    useEffect(() => {
+            const fetchProdutos = async () => {
+                const data = await getProdutos();
+                setProdutos(data);
+            };
+            fetchProdutos();
+        }, []);
 
     const handleChange = (id, key, value) => {
         setProducts(products.map(product =>
@@ -96,6 +107,7 @@ export default function ProductSection({ updateData }) {
                             title={'Produto'}
                             placeholder={'Selecione'}
                             value={product.produto}
+                            options={produtos.map((i) => ({ value: i.id_produto, label: i.nome }))}
                             onChange={(value) => handleChange(product.id, 'produto', value)}
                         />
                         <SearchableDropdown

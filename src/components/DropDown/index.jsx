@@ -2,14 +2,12 @@ import { useState } from "react";
 import Select from "react-select";
 import '../../components/InputField/InputField.css'
 
-const options = [
-  { value: "Franco Montoro", label: "Franco Montoro" },
-  { value: "Marianinha", label: "Marianinha" },
-  { value: "Buscariolli", label: "Buscariolli" },
+const a = [
+  { value: "0", label: "Testeete" },
 ];
 
 
-export default function SearchableDropdown({ title, placeholder, required = true, onChange, width = 100 }) {
+export default function SearchableDropdown({ title, placeholder, options = a, required = true, onChange, width = 100 }) {
   const [selected, setSelected] = useState(null);
 
   const handleChange = (option) => {

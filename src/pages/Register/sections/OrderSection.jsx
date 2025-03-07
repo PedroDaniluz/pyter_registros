@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import SearchableDropdown from '../../../components/DropDown';
 import InputField from '../../../components/InputField';
+import { getInstituicoes } from '../../../services/Api'
 
 export default function OrderSection({ updateData }) {
     const [orderData, setOrderData] = useState({
@@ -8,6 +9,16 @@ export default function OrderSection({ updateData }) {
         prazo: '',
         instituicao: ''
     });
+
+    const [instituicoes, setInstituicoes] = useState([]);
+
+    useEffect(() => {
+        const fetchInstituicoes = async () => {
+            const data = await getInstituicoes();
+            setInstituicoes(data);
+        };
+        fetchInstituicoes();
+    }, []);
 
     const handleChange = (key, value) => {
         setOrderData(prevState => ({
@@ -39,7 +50,8 @@ export default function OrderSection({ updateData }) {
                     onChange={(value) => handleChange('prazo', value)}
                 />
                 <SearchableDropdown 
-                    title={'Instituição (opcional)'} 
+                    options={instituicoes.map((i) => ({ value: i.id_instituicao, label: i.nome }))}
+                    title={'Instituição (opcional)'}
                     placeholder={'Selecione a instituição'}
                     required={false}
                     onChange={(value) => handleChange('instituicao', value)}
