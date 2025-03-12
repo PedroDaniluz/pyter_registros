@@ -47,7 +47,7 @@ export default function ProductSection({ updateData }) {
             material: '',
             quantidade: 1,
             tamanho: '',
-            preco: '',
+            preco: 50,
             observacoes: '',
             adicionaisAtivos: false,
             adicionais: []
@@ -104,6 +104,7 @@ export default function ProductSection({ updateData }) {
                     </button>
                     <div className='stdIn--inputs'>
                         <SearchableDropdown
+                            id = {crypto.randomUUID()}
                             title={'Produto'}
                             placeholder={'Selecione'}
                             value={product.produto}
@@ -111,18 +112,21 @@ export default function ProductSection({ updateData }) {
                             onChange={(value) => handleChange(product.id, 'produto', value)}
                         />
                         <SearchableDropdown
+                            id = {crypto.randomUUID()}
                             title={'Categoria'}
                             placeholder={'Selecione'}
                             value={product.categoria}
                             onChange={(value) => handleChange(product.id, 'categoria', value)}
                         />
                         <SearchableDropdown
+                            id = {crypto.randomUUID()}
                             title={'Material'}
                             placeholder={'Selecione'}
                             value={product.material}
                             onChange={(value) => handleChange(product.id, 'material', value)}
                         />
                         <InputField
+                            id = {crypto.randomUUID()}
                             title={'Quantidade'}
                             type={'number'}
                             width={10}
@@ -131,6 +135,7 @@ export default function ProductSection({ updateData }) {
                             onChange={(value) => handleChange(product.id, 'quantidade', value)}
                         />
                         <SearchableDropdown
+                            id = {crypto.randomUUID()}
                             title={'Tamanho'}
                             placeholder={''}
                             width={50}
@@ -138,17 +143,19 @@ export default function ProductSection({ updateData }) {
                             onChange={(value) => handleChange(product.id, 'tamanho', value)}
                         />
                         <InputField
+                            id = {crypto.randomUUID()}
                             title={'Preço'}
-                            placeholder={'R$ 0,00'}
                             type={'text'}
                             width={10}
                             mask={'currency'}
                             value={product.preco}
+                            defaultValue={product.preco}
                             onChange={(value) => handleChange(product.id, 'preco', value)}
                         />
                     </div>
                     <div className='stdIn--inputs'>
                         <InputField
+                            id = {crypto.randomUUID()}
                             title={'Observações (opcional)'}
                             placeholder={'Insira os detalhes específicos do produto'}
                             required={false}
@@ -169,12 +176,14 @@ export default function ProductSection({ updateData }) {
                             {product.adicionais.map((adicional, index) => (
                                 <div key={index} className='stdIn--inputs'>
                                     <SearchableDropdown
+                                        id = {crypto.randomUUID()}
                                         title={'Adicional'}
                                         placeholder={'Selecione o item adicional'}
                                         value={adicional.adicional}
                                         onChange={(value) => handleAdicionalChange(product.id, index, 'adicional', value)}
                                     />
                                     <InputField
+                                        id = {crypto.randomUUID()}
                                         title={'Valor'}
                                         placeholder={'R$'}
                                         type={'text'}

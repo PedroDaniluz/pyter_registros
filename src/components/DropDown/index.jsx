@@ -7,7 +7,7 @@ const a = [
 ];
 
 
-export default function SearchableDropdown({ title, placeholder, options = a, required = true, onChange, width = 100 }) {
+export default function SearchableDropdown({ id, title, placeholder, options = a, required = true, onChange, width = 100 }) {
   const [selected, setSelected] = useState(null);
 
   const handleChange = (option) => {
@@ -57,6 +57,7 @@ export default function SearchableDropdown({ title, placeholder, options = a, re
     <div className='textField' style={{ width: `${width}%` }}>
       <label className='textField--title'>{title}</label>
       <Select
+        id={id}
         required={required}
         options={options}
         value={selected}

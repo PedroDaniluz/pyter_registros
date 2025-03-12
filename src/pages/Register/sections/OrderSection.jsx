@@ -36,6 +36,7 @@ export default function OrderSection({ updateData }) {
             <h2>Pedido</h2>
             <div className='stdIn--inputs'>
                 <InputField 
+                    id = {crypto.randomUUID()}
                     title='Data'
                     type={'date'} 
                     required
@@ -43,6 +44,7 @@ export default function OrderSection({ updateData }) {
                     onChange={(value) => handleChange('data', value)}
                 />
                 <InputField 
+                    id = {crypto.randomUUID()}
                     title='Prazo (opcional)'
                     type={'date'} 
                     required={false}
@@ -50,6 +52,7 @@ export default function OrderSection({ updateData }) {
                     onChange={(value) => handleChange('prazo', value)}
                 />
                 <SearchableDropdown 
+                    id = {crypto.randomUUID()}
                     options={instituicoes.map((i) => ({ value: i.id_instituicao, label: i.nome }))}
                     title={'Instituição (opcional)'}
                     placeholder={'Selecione a instituição'}

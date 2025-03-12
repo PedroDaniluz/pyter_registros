@@ -24,6 +24,7 @@ export default function ClientSection({ updateData }) {
             <h2>Clientes</h2>
             <div className='stdIn--inputs'>
                 <InputField 
+                    id = {crypto.randomUUID()}
                     title='Telefone' 
                     placeholder='Insira o telefone do cliente' 
                     type={'text'} 
@@ -33,12 +34,14 @@ export default function ClientSection({ updateData }) {
                     onInvalid={(e) => e.target.setCustomValidity("Este campo é obrigatório")}
                 />
                 <InputField 
+                    id = {crypto.randomUUID()}
                     title='Nome' 
                     placeholder='Insira o nome do cliente' 
                     type={'text'} 
                     onChange={(value) => handleChange('nome', value)}
                 />
                 <InputField 
+                    id = {crypto.randomUUID()}
                     title='Email (opcional)' 
                     placeholder='Insira o email do cliente' 
                     type={'email'} 
