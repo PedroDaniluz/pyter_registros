@@ -21,12 +21,12 @@ export default function ProductSection({ updateData }) {
     const [produtos, setProdutos] = useState([]);
 
     useEffect(() => {
-            const fetchProdutos = async () => {
-                const data = await getProdutos();
-                setProdutos(data);
-            };
-            fetchProdutos();
-        }, []);
+        const fetchProdutos = async () => {
+            const data = await getProdutos();
+            setProdutos(data);
+        };
+        fetchProdutos();
+    }, []);
 
     const handleChange = (id, key, value) => {
         setProducts(products.map(product =>
@@ -104,7 +104,7 @@ export default function ProductSection({ updateData }) {
                     </button>
                     <div className='stdIn--inputs'>
                         <SearchableDropdown
-                            id = {useId()}
+                            id={useId()}
                             title={'Produto'}
                             placeholder={'Selecione'}
                             value={product.produto}
@@ -112,21 +112,21 @@ export default function ProductSection({ updateData }) {
                             onChange={(value) => handleChange(product.id, 'produto', value)}
                         />
                         <SearchableDropdown
-                            id = {useId()}
+                            id={useId()}
                             title={'Categoria'}
                             placeholder={'Selecione'}
                             value={product.categoria}
                             onChange={(value) => handleChange(product.id, 'categoria', value)}
                         />
                         <SearchableDropdown
-                            id = {useId()}
+                            id={useId()}
                             title={'Material'}
                             placeholder={'Selecione'}
                             value={product.material}
                             onChange={(value) => handleChange(product.id, 'material', value)}
                         />
                         <InputField
-                            id = {useId()}
+                            id={useId()}
                             title={'Quantidade'}
                             type={'number'}
                             width={10}
@@ -135,7 +135,7 @@ export default function ProductSection({ updateData }) {
                             onChange={(value) => handleChange(product.id, 'quantidade', value)}
                         />
                         <SearchableDropdown
-                            id = {useId()}
+                            id={useId()}
                             title={'Tamanho'}
                             placeholder={''}
                             width={50}
@@ -143,8 +143,9 @@ export default function ProductSection({ updateData }) {
                             onChange={(value) => handleChange(product.id, 'tamanho', value)}
                         />
                         <InputField
-                            id = {useId()}
+                            id={useId()}
                             title={'Preço'}
+                            placeholder={'R$ 0,00'}
                             type={'text'}
                             width={10}
                             mask={'currency'}
@@ -155,7 +156,7 @@ export default function ProductSection({ updateData }) {
                     </div>
                     <div className='stdIn--inputs'>
                         <InputField
-                            id = {useId()}
+                            id={useId()}
                             title={'Observações (opcional)'}
                             placeholder={'Insira os detalhes específicos do produto'}
                             required={false}
@@ -176,14 +177,14 @@ export default function ProductSection({ updateData }) {
                             {product.adicionais.map((adicional, index) => (
                                 <div key={index} className='stdIn--inputs'>
                                     <SearchableDropdown
-                                        id = {useId()}
+                                        id={useId()}
                                         title={'Adicional'}
                                         placeholder={'Selecione o item adicional'}
                                         value={adicional.adicional}
                                         onChange={(value) => handleAdicionalChange(product.id, index, 'adicional', value)}
                                     />
                                     <InputField
-                                        id = {useId()}
+                                        id={useId()}
                                         title={'Valor'}
                                         placeholder={'R$'}
                                         type={'text'}

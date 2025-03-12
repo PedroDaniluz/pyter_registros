@@ -23,28 +23,28 @@ export default function ClientSection({ updateData }) {
         <section className='stdIn'>
             <h2>Clientes</h2>
             <div className='stdIn--inputs'>
-                <InputField 
-                    id = {useId()}
-                    title='Telefone' 
-                    placeholder='Insira o telefone do cliente' 
-                    type={'text'} 
-                    mask={'(99) 99999-9999'} 
-                    width={80} 
+                <InputField
+                    id={useId()}
+                    title='Telefone'
+                    placeholder='Insira o telefone do cliente'
+                    type={'text'}
+                    mask={'(99) 99999-9999'}
+                    width={80}
                     onChange={(value) => handleChange('telefone', value)}
                     onInvalid={(e) => e.target.setCustomValidity("Este campo é obrigatório")}
                 />
-                <InputField 
-                    id = {useId()}
-                    title='Nome' 
-                    placeholder='Insira o nome do cliente' 
-                    type={'text'} 
+                <InputField
+                    id={useId()}
+                    title='Nome'
+                    placeholder='Insira o nome do cliente'
+                    type={'text'}
                     onChange={(value) => handleChange('nome', value)}
                 />
-                <InputField 
-                    id = {useId()}
-                    title='Email (opcional)' 
-                    placeholder='Insira o email do cliente' 
-                    type={'email'} 
+                <InputField
+                    id={useId()}
+                    title='Email (opcional)'
+                    placeholder='Insira o email do cliente'
+                    type={'email'}
                     onChange={(value) => handleChange('email', value)}
                 />
             </div>

@@ -35,24 +35,24 @@ export default function OrderSection({ updateData }) {
         <section className='stdIn'>
             <h2>Pedido</h2>
             <div className='stdIn--inputs'>
-                <InputField 
-                    id = {useId()}
+                <InputField
+                    id={useId()}
                     title='Data'
-                    type={'date'} 
+                    type={'date'}
                     required
                     width={50}
                     onChange={(value) => handleChange('data', value)}
                 />
-                <InputField 
-                    id = {useId()}
+                <InputField
+                    id={useId()}
                     title='Prazo (opcional)'
-                    type={'date'} 
+                    type={'date'}
                     required={false}
-                    width={50} 
+                    width={50}
                     onChange={(value) => handleChange('prazo', value)}
                 />
-                <SearchableDropdown 
-                    id = {useId()}
+                <SearchableDropdown
+                    id={useId()}
                     options={instituicoes.map((i) => ({ value: i.id_instituicao, label: i.nome }))}
                     title={'Instituição (opcional)'}
                     placeholder={'Selecione a instituição'}
