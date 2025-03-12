@@ -55,9 +55,10 @@ export default function SearchableDropdown({ id, title, placeholder, options = a
 
   return (
     <div className='textField' style={{ width: `${width}%` }}>
-      <label className='textField--title'>{title}</label>
+      <label htmlFor={id} className='textField--title'>{title}</label>
       <Select
-        id={id}
+        inputId={id}
+        name={id} 
         required={required}
         options={options}
         value={selected}

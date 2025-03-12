@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import InputField from '../../../components/InputField';
 import SearchableDropdown from '../../../components/DropDown';
 import SwitchButton from '../../../components/SwitchButton';
@@ -6,7 +6,7 @@ import { getProdutos } from '../../../services/Api'
 
 export default function ProductSection({ updateData }) {
     const [products, setProducts] = useState([{
-        id: crypto.randomUUID(),
+        id: useId(),
         produto: '',
         categoria: '',
         material: '',
@@ -41,7 +41,7 @@ export default function ProductSection({ updateData }) {
 
     const addProduct = () => {
         setProducts([...products, {
-            id: crypto.randomUUID(),
+            id: useId(),
             produto: '',
             categoria: '',
             material: '',
@@ -104,7 +104,7 @@ export default function ProductSection({ updateData }) {
                     </button>
                     <div className='stdIn--inputs'>
                         <SearchableDropdown
-                            id = {crypto.randomUUID()}
+                            id = {useId()}
                             title={'Produto'}
                             placeholder={'Selecione'}
                             value={product.produto}
@@ -112,21 +112,21 @@ export default function ProductSection({ updateData }) {
                             onChange={(value) => handleChange(product.id, 'produto', value)}
                         />
                         <SearchableDropdown
-                            id = {crypto.randomUUID()}
+                            id = {useId()}
                             title={'Categoria'}
                             placeholder={'Selecione'}
                             value={product.categoria}
                             onChange={(value) => handleChange(product.id, 'categoria', value)}
                         />
                         <SearchableDropdown
-                            id = {crypto.randomUUID()}
+                            id = {useId()}
                             title={'Material'}
                             placeholder={'Selecione'}
                             value={product.material}
                             onChange={(value) => handleChange(product.id, 'material', value)}
                         />
                         <InputField
-                            id = {crypto.randomUUID()}
+                            id = {useId()}
                             title={'Quantidade'}
                             type={'number'}
                             width={10}
@@ -135,7 +135,7 @@ export default function ProductSection({ updateData }) {
                             onChange={(value) => handleChange(product.id, 'quantidade', value)}
                         />
                         <SearchableDropdown
-                            id = {crypto.randomUUID()}
+                            id = {useId()}
                             title={'Tamanho'}
                             placeholder={''}
                             width={50}
@@ -143,7 +143,7 @@ export default function ProductSection({ updateData }) {
                             onChange={(value) => handleChange(product.id, 'tamanho', value)}
                         />
                         <InputField
-                            id = {crypto.randomUUID()}
+                            id = {useId()}
                             title={'Preço'}
                             type={'text'}
                             width={10}
@@ -155,7 +155,7 @@ export default function ProductSection({ updateData }) {
                     </div>
                     <div className='stdIn--inputs'>
                         <InputField
-                            id = {crypto.randomUUID()}
+                            id = {useId()}
                             title={'Observações (opcional)'}
                             placeholder={'Insira os detalhes específicos do produto'}
                             required={false}
@@ -176,14 +176,14 @@ export default function ProductSection({ updateData }) {
                             {product.adicionais.map((adicional, index) => (
                                 <div key={index} className='stdIn--inputs'>
                                     <SearchableDropdown
-                                        id = {crypto.randomUUID()}
+                                        id = {useId()}
                                         title={'Adicional'}
                                         placeholder={'Selecione o item adicional'}
                                         value={adicional.adicional}
                                         onChange={(value) => handleAdicionalChange(product.id, index, 'adicional', value)}
                                     />
                                     <InputField
-                                        id = {crypto.randomUUID()}
+                                        id = {useId()}
                                         title={'Valor'}
                                         placeholder={'R$'}
                                         type={'text'}

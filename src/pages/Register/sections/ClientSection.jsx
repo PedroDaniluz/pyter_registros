@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import InputField from '../../../components/InputField';
 
 export default function ClientSection({ updateData }) {
@@ -24,7 +24,7 @@ export default function ClientSection({ updateData }) {
             <h2>Clientes</h2>
             <div className='stdIn--inputs'>
                 <InputField 
-                    id = {crypto.randomUUID()}
+                    id = {useId()}
                     title='Telefone' 
                     placeholder='Insira o telefone do cliente' 
                     type={'text'} 
@@ -34,14 +34,14 @@ export default function ClientSection({ updateData }) {
                     onInvalid={(e) => e.target.setCustomValidity("Este campo é obrigatório")}
                 />
                 <InputField 
-                    id = {crypto.randomUUID()}
+                    id = {useId()}
                     title='Nome' 
                     placeholder='Insira o nome do cliente' 
                     type={'text'} 
                     onChange={(value) => handleChange('nome', value)}
                 />
                 <InputField 
-                    id = {crypto.randomUUID()}
+                    id = {useId()}
                     title='Email (opcional)' 
                     placeholder='Insira o email do cliente' 
                     type={'email'} 

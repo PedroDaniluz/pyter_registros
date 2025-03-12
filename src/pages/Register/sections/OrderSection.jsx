@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useId } from 'react';
 import SearchableDropdown from '../../../components/DropDown';
 import InputField from '../../../components/InputField';
 import { getInstituicoes } from '../../../services/Api'
@@ -36,7 +36,7 @@ export default function OrderSection({ updateData }) {
             <h2>Pedido</h2>
             <div className='stdIn--inputs'>
                 <InputField 
-                    id = {crypto.randomUUID()}
+                    id = {useId()}
                     title='Data'
                     type={'date'} 
                     required
@@ -44,7 +44,7 @@ export default function OrderSection({ updateData }) {
                     onChange={(value) => handleChange('data', value)}
                 />
                 <InputField 
-                    id = {crypto.randomUUID()}
+                    id = {useId()}
                     title='Prazo (opcional)'
                     type={'date'} 
                     required={false}
@@ -52,7 +52,7 @@ export default function OrderSection({ updateData }) {
                     onChange={(value) => handleChange('prazo', value)}
                 />
                 <SearchableDropdown 
-                    id = {crypto.randomUUID()}
+                    id = {useId()}
                     options={instituicoes.map((i) => ({ value: i.id_instituicao, label: i.nome }))}
                     title={'Instituição (opcional)'}
                     placeholder={'Selecione a instituição'}

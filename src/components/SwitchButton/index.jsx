@@ -17,7 +17,7 @@ export default function SwitchButton({ title, placeholder, onToggleChange, width
 
     return (
         <div className='textField' style={{ width: `${width}%` }}>
-            <label className='textField--title'>{title}</label>
+            <span className='textField--title'>{title}</span>
             <div className='switch'>
                 <span>{placeholder}</span>
                 <button 
