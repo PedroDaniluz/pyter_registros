@@ -1,12 +1,12 @@
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useState } from 'react';
 import InputField from '../../../components/InputField';
 import SearchableDropdown from '../../../components/DropDown';
 import SwitchButton from '../../../components/SwitchButton';
-import { getProdutos } from '../../../services/Api'
+import { getProdutos, getVariacoes } from '../../../services/Api'
 
 export default function ProductSection({ updateData }) {
     const [products, setProducts] = useState([{
-        id: useId(),
+        id: crypto.randomUUID(),
         produto: '',
         categoria: '',
         material: '',
@@ -15,17 +15,27 @@ export default function ProductSection({ updateData }) {
         preco: '',
         observacoes: '',
         adicionaisAtivos: false,
-        adicionais: []
+        adicionais: [],
+        avaliableCategorias: [],
+        avaliableMateriais: [],
+        avaliableTamanhos: []
     }]);
 
-    const [produtos, setProdutos] = useState([]);
+    const [availableProdutos, setAvailableProdutos] = useState([]);
+    const [variacoes, setVariacoes] = useState([]);
 
     useEffect(() => {
         const fetchProdutos = async () => {
             const data = await getProdutos();
-            setProdutos(data);
+            setAvailableProdutos(data);
         };
         fetchProdutos();
+
+        const fetchVariacoes = async () => {
+            const data = await getVariacoes();
+            setVariacoes(data);
+        };
+        fetchVariacoes();
     }, []);
 
     const handleChange = (id, key, value) => {
@@ -34,23 +44,55 @@ export default function ProductSection({ updateData }) {
         ));
     };
 
+    const handleProductChange = (id, key, value) => {
+        const selectedProductId = value;
+        const relevantVariacoes = variacoes.filter(v => v.id_produto === selectedProductId);
+
+        const uniqueCategorias = Array.from(
+            new Map(relevantVariacoes.map(v => [v.id_categoria, { id_categoria: v.id_categoria, nome: v.categoria }])).values()
+        );
+        const uniqueMateriais = Array.from(
+            new Map(relevantVariacoes.map(v => [v.id_material, { id_material: v.id_material, nome: v.material }])).values()
+        );
+        const uniqueTamanhos = Array.from(
+            new Set(relevantVariacoes.map(v => v.tamanho))
+        );
+
+        setProducts(products.map(product =>
+            product.id === id ? {
+                ...product,
+                [key]: selectedProductId,
+                categoria: '',
+                material: '',
+                tamanho: '',
+                preco: '',
+                avaliableCategorias: uniqueCategorias,
+                avaliableMateriais: uniqueMateriais,
+                avaliableTamanhos: uniqueTamanhos
+            } : product
+        ));
+    };
+
     useEffect(() => {
         updateData(products);
-    }, [products]);
+    }, [products, updateData]);
 
 
     const addProduct = () => {
         setProducts([...products, {
-            id: useId(),
+            id: crypto.randomUUID(),
             produto: '',
             categoria: '',
             material: '',
             quantidade: 1,
             tamanho: '',
-            preco: 50,
+            preco: '',
             observacoes: '',
             adicionaisAtivos: false,
-            adicionais: []
+            adicionais: [],
+            avaliableCategorias: [],
+            avaliableMateriais: [],
+            avaliableTamanhos: []
         }]);
     };
 
@@ -65,21 +107,28 @@ export default function ProductSection({ updateData }) {
         }
     };
 
-    const addAdicional = (id) => {
+    const addAdicional = (productId) => {
         setProducts(products.map(product =>
-            product.id === id ? {
+            product.id === productId ? {
                 ...product,
-                adicionais: [...product.adicionais, { adicional: '', valorAdicional: '' }]
+                adicionais: [...product.adicionais, { id: crypto.randomUUID(), adicional: '', valorAdicional: '' }]
             } : product
         ));
     };
 
     const removeAdicional = (productId) => {
-        setProducts(products.map(product =>
-            product.id === productId ? {
-                ...product,
-                adicionais: product.adicionais.slice(0, -1)
-            } : product
+        setProducts(products.map(product => {
+            if (product.id === productId && product.adicionais.length > 0) {
+                 const updatedAdicionais = product.adicionais.slice(0, -1);
+                 const shouldDeactivate = updatedAdicionais.length === 0;
+                return {
+                    ...product,
+                    adicionais: updatedAdicionais,
+                    adicionaisAtivos: shouldDeactivate ? false : product.adicionaisAtivos
+                 };
+            }
+            return product;
+        }
         ));
     };
 
@@ -104,59 +153,65 @@ export default function ProductSection({ updateData }) {
                     </button>
                     <div className='stdIn--inputs'>
                         <SearchableDropdown
-                            id={useId()}
+                            id={`prod-${product.id}-produto`}
                             title={'Produto'}
                             placeholder={'Selecione'}
                             value={product.produto}
-                            options={produtos.map((i) => ({ value: i.id_produto, label: i.nome }))}
-                            onChange={(value) => handleChange(product.id, 'produto', value)}
+                            options={availableProdutos.map((i) => ({ value: i.id_produto, label: i.nome }))}
+                            onChange={(value) => handleProductChange(product.id, 'produto', value)}
                         />
                         <SearchableDropdown
-                            id={useId()}
+                            id={`prod-${product.id}-categoria`}
                             title={'Categoria'}
                             placeholder={'Selecione'}
                             value={product.categoria}
+                            options={product.avaliableCategorias.map((i) => ({ value: i.id_categoria, label: i.nome }))}
                             onChange={(value) => handleChange(product.id, 'categoria', value)}
+                            disabled={!product.produto}
                         />
                         <SearchableDropdown
-                            id={useId()}
+                            id={`prod-${product.id}-material`}
                             title={'Material'}
                             placeholder={'Selecione'}
                             value={product.material}
+                            options={product.avaliableMateriais.map((i) => ({ value: i.id_material, label: i.nome }))}
                             onChange={(value) => handleChange(product.id, 'material', value)}
-                        />
-                        <InputField
-                            id={useId()}
-                            title={'Quantidade'}
-                            type={'number'}
-                            width={10}
-                            value={product.quantidade}
-                            defaultValue={product.quantidade}
-                            onChange={(value) => handleChange(product.id, 'quantidade', value)}
+                            disabled={!product.produto}
                         />
                         <SearchableDropdown
-                            id={useId()}
+                            id={`prod-${product.id}-tamanho`}
                             title={'Tamanho'}
                             placeholder={''}
                             width={50}
                             value={product.tamanho}
+                            options={product.avaliableTamanhos.map((tamanho) => ({ value: tamanho, label: tamanho }))}
                             onChange={(value) => handleChange(product.id, 'tamanho', value)}
+                            disabled={!product.produto}
                         />
                         <InputField
-                            id={useId()}
+                            id={`prod-${product.id}-quantidade`}
+                            title={'Quantidade'}
+                            type={'number'}
+                            width={10}
+                            defaultValue={product.quantidade}
+                            value={product.quantidade}
+                            min={1}
+                            onChange={(value) => handleChange(product.id, 'quantidade', Math.max(1, parseInt(value, 10) || 1))}
+                        />
+                        <InputField
+                            id={`prod-${product.id}-preco`}
                             title={'Preço'}
                             placeholder={'R$ 0,00'}
                             type={'text'}
                             width={10}
                             mask={'currency'}
                             value={product.preco}
-                            defaultValue={product.preco}
                             onChange={(value) => handleChange(product.id, 'preco', value)}
                         />
                     </div>
                     <div className='stdIn--inputs'>
                         <InputField
-                            id={useId()}
+                            id={`prod-${product.id}-observacoes`}
                             title={'Observações (opcional)'}
                             placeholder={'Insira os detalhes específicos do produto'}
                             required={false}
@@ -165,26 +220,32 @@ export default function ProductSection({ updateData }) {
                             onChange={(value) => handleChange(product.id, 'observacoes', value)}
                         />
                         <SwitchButton
+                            id={`prod-${product.id}-adicionaisAtivos`}
                             title={'Adicionais'}
                             placeholder={'Adicionais pagos'}
                             width={25}
                             value={product.adicionaisAtivos}
-                            onToggleChange={(value) => handleChange(product.id, 'adicionaisAtivos', value)}
+                             onToggleChange={(value) => {
+                                if (value && product.adicionais.length === 0) {
+                                    addAdicional(product.id);
+                                }
+                                handleChange(product.id, 'adicionaisAtivos', value);
+                            }}
                         />
                     </div>
                     {product.adicionaisAtivos && (
                         <>
                             {product.adicionais.map((adicional, index) => (
-                                <div key={index} className='stdIn--inputs'>
+                                <div key={adicional.id} className='stdIn--inputs'>
                                     <SearchableDropdown
-                                        id={useId()}
+                                        id={`adicional-${product.id}-${adicional.id}-item`}
                                         title={'Adicional'}
                                         placeholder={'Selecione o item adicional'}
                                         value={adicional.adicional}
                                         onChange={(value) => handleAdicionalChange(product.id, index, 'adicional', value)}
                                     />
                                     <InputField
-                                        id={useId()}
+                                        id={`adicional-${product.id}-${adicional.id}-valor`}
                                         title={'Valor'}
                                         placeholder={'R$'}
                                         type={'text'}
@@ -197,10 +258,13 @@ export default function ProductSection({ updateData }) {
                             ))}
                             <div className='add-btns'>
                                 <button type='button' className='add-btn add' onClick={() => addAdicional(product.id)}><u>+ Inserir adicional</u></button>
-                                <button type='button' className='add-btn rmv' onClick={() => removeAdicional(product.id)}><u>- Remover adicional</u></button>
+                                {product.adicionais.length > 0 && (
+                                    <button type='button' className='add-btn rmv' onClick={() => removeAdicional(product.id)}><u>- Remover adicional</u></button>
+                                )}
                             </div>
                         </>
                     )}
+                     <hr style={{borderTop: '1px solid #eee', margin: '15px 0'}}/>
                 </div>
             ))}
             <button type='button' className='addProd-btn' onClick={addProduct}>Adicionar Produto</button>
