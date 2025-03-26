@@ -2,7 +2,7 @@ import './Register.css'
 import NavBar from '../../components/NavBar'
 import ClientSection from './sections/ClientSection'
 import OrderSection from './sections/OrderSection'
-import ProductSection from './sections/ProductSection'
+import ProductSection from './sections/ProductSection/index'
 import { useState } from 'react'
 
 export default function Register() {
