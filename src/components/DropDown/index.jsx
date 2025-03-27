@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo } from "react";
 import Select from "react-select";
 import '../../components/InputField/InputField.css'
 
@@ -7,15 +7,21 @@ const a = [
 ];
 
 
-export default function SearchableDropdown({ id, title, placeholder, options = a, required = true, onChange, width = 100 }) {
-  const [selected, setSelected] = useState(null);
+export default function SearchableDropdown({ id, title, placeholder, options = a, required = true, onChange, width = 100, value, isClearable = false }) {
 
-  const handleChange = (option) => {
-    setSelected(option);
-    if (onChange) {
-      onChange(option ? option.value : "");
+  const selectedOption = useMemo(() => {
+    if (value === null || value === undefined || value === '') {
+       return null;
     }
-  }
+    return options.find(option => option.value === value) || null;
+}, [options, value]);
+
+
+const handleChange = (selectedOptionParam) => {
+    if (onChange) {
+        onChange(selectedOptionParam ? selectedOptionParam.value : null);
+    }
+}
 
   const customStyles = {
     control: (provided, state) => ({
@@ -61,9 +67,10 @@ export default function SearchableDropdown({ id, title, placeholder, options = a
         name={id} 
         required={required}
         options={options}
-        value={selected}
+        value={selectedOption}
         placeholder={placeholder}
         isSearchable
+        isClearable={isClearable}
         styles={customStyles}
         onChange={handleChange}
       />

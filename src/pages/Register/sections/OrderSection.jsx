@@ -57,6 +57,7 @@ export default function OrderSection({ updateData }) {
                     title={'Instituição (opcional)'}
                     placeholder={'Selecione a instituição'}
                     required={false}
+                    value={orderData.instituicao}
                     onChange={(value) => handleChange('instituicao', value)}
                 />
             </div>

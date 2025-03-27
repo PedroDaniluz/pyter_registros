@@ -39,6 +39,7 @@ export default function ProductItem({
                     value={product.produto}
                     options={availableProdutosOptions}
                     onChange={(value) => onProductChange(product.id, 'produto', value)}
+                    isClearable
                 />
                 <SearchableDropdown
                     id={`prod-${product.id}-categoria`}
@@ -62,7 +63,7 @@ export default function ProductItem({
                     id={`prod-${product.id}-tamanho`}
                     title={'Tamanho'}
                     placeholder={''}
-                    width={50}
+                    width={100}
                     value={product.tamanho}
                     options={(product.avaliableTamanhos ?? []).map((tamanho) => ({ value: tamanho, label: tamanho }))}
                     onChange={(value) => handleInputChange('tamanho', value)}

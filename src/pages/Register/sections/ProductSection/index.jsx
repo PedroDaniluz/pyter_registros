@@ -97,6 +97,7 @@ export default function ProductSection({ updateData }) {
                     material: '',
                     tamanho: '',
                     preco: '',
+                    quantidade: 1,
                     avaliableCategorias: uniqueCategorias,
                     avaliableMateriais: uniqueMateriais,
                     avaliableTamanhos: uniqueTamanhos
@@ -184,9 +185,7 @@ export default function ProductSection({ updateData }) {
     };
 
     useEffect(() => {
-        if (updateData && typeof updateData === 'function') {
-            updateData(products);
-        }
+        updateData(products);
     }, [products, updateData]);
 
     const availableProdutosOptions = (availableProdutos ?? []).map(p => ({ value: p.id_produto, label: p.nome }));

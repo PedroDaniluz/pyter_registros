@@ -1,41 +1,53 @@
 import './InputField.css';
 import InputMask from '@mona-health/react-input-mask';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function InputField({ id, title, placeholder, required = true, type, mask, defaultValue, onChange, width = 100 }) {
-    const [value, setValue] = useState(defaultValue || '');
+export default function InputField({
+    id, title, placeholder, required = true, type, mask, defaultValue, onChange, width = 100, min }) {
+    const [value, setValue] = useState(defaultValue ?? ''); 
+    
+    useEffect(() => {
+       const defaultVal = defaultValue ?? '';
+       if (defaultVal !== value) {
+           setValue(defaultVal);
+       }
+    }, [defaultValue]);
 
+const formatCurrency = (input) => {
+    let num = input.replace(/\D/g, '');
+    if (!num || num === '0') return 'R$ 0,00';
+    let formatted = (Number(num) / 100).toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+    });
+    return formatted;
+};
 
-    const formatCurrency = (input) => {
-        let num = input.replace(/\D/g, '');
-        let formatted = (Number(num) / 100).toLocaleString('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-        });
-        return formatted;
-    };
- 
+const handleChange = (e) => {
+    let newValueFromInput = e.target.value;
+    let valueToSetAndNotify;
+    if (mask === "currency") {
+        const rawDigits = newValueFromInput.replace(/\D/g, '');
+        const formattedValue = formatCurrency(rawDigits);
+        valueToSetAndNotify = formattedValue;
 
-    const handleChange = (e) => {
-        let newValue = e.target.value;
+    } else {
+        valueToSetAndNotify = newValueFromInput;
+    }
+    setValue(valueToSetAndNotify);
 
-        if (mask === "currency") {
-            newValue = formatCurrency(newValue);
-        }
+    if (onChange) {
+        onChange(valueToSetAndNotify);
+    }
+};
 
-        setValue(newValue);
-
-        if (onChange) {
-            onChange(newValue);
-        }
-    };
+    const isCurrency = mask === "currency";
 
     return (
         <div className="textField" style={{ width: `${width}%` }}>
             <label htmlFor={id} className="textField--title">{title}</label>
 
-            {mask && mask !== "currency" ? (
-                // Com máscara aplicada
+            {mask && !isCurrency ? (
                 <InputMask
                     id={id}
                     required={required}
@@ -46,6 +58,16 @@ export default function InputField({ id, title, placeholder, required = true, ty
                     value={value}
                     onChange={handleChange}
                 />
+            ) : isCurrency ? (
+                 <input
+                     id={id}
+                     required={required}
+                     className="textField--field"
+                     type={'text'}
+                     placeholder={placeholder}
+                     value={value}
+                     onChange={handleChange}
+                 />
             ) : (
                 <input
                     id={id}
@@ -54,8 +76,9 @@ export default function InputField({ id, title, placeholder, required = true, ty
                     type={type}
                     placeholder={placeholder}
                     value={value}
-                    min={1}
+                    min={type === 'number' ? min : undefined}
                     onChange={handleChange}
+                    step={type === 'number' ? 1 : undefined}
                 />
             )}
         </div>

@@ -21,7 +21,19 @@ export default function Register() {
         e.preventDefault();
         console.log(clientData);
         console.log(orderData);
-        console.log(productData);
+        const relevantProductData = productData.map(product => {
+            return {
+                produto: product.produto,
+                categoria: product.categoria,
+                material: product.material,
+                quantidade: product.quantidade,
+                tamanho: product.tamanho,
+                preco: product.preco,
+                observacoes: product.observacoes,
+                adicionais: product.adicionais.map(add => {return{adiconal: add.adicional, valor: add.valorAdicional}})
+            };
+        });
+        console.log(relevantProductData);
     }
 
     return (
