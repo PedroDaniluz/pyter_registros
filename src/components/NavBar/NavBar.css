@@ -1,5 +1,6 @@
 .navBar {
-    width: 20vw;
+    width: 12vw;
+    flex-shrink: 0;
     padding: 32px 48px;
     border-right: 2px solid var(--grey-stroke);
     min-height: 100vh;
