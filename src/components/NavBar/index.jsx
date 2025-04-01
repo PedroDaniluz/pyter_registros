@@ -13,7 +13,7 @@ export default function NavBar() {
                     </Link>
                 </li>
                 <li>
-                    <Link to={''}>
+                    <Link to={'/order-list'}>
                         <img src="/src/assets/images/icons/darkVariants/cart.svg" alt="Ícone de carrinho"/>
                         <span>Pedidos</span>
                     </Link>

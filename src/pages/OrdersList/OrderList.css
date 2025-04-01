@@ -1,0 +1,28 @@
+main {
+    display: flex;
+}
+
+.orderList {
+    color: var(--grey-strong);
+    width: 100%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.orderList h1 {
+    font-family: 'Franie';
+    font-weight: 600;
+    font-size: 2.5rem;
+    margin-bottom: 32px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+    padding: 8px;
+}

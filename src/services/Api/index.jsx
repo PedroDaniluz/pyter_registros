@@ -24,32 +24,23 @@ export const getProdutos = async () => {
     }
 };
 
-export const getCategorias = async () => {
-    try {
-        const response = await api.get("categorias/");
-        return response.data;
-    } catch (err) {
-        console.error("ERRO DE API => root/categorias", err);
-        return [];
-    }
-};
-
-export const getMateriais = async () => {
-    try {
-        const response = await api.get("materiais/");
-        return response.data;
-    } catch (err) {
-        console.error("ERRO DE API => root/materiais", err);
-        return [];
-    }
-};
-
 export const getVariacoes = async () => {
     try {
-        const response = await api.get(`variacoes-detalhadas/`);
+        const response = await api.get('lista-variacoes/');
         return response.data;
     } catch (err) {
-        console.error("ERRO DE API => root/variacoes-detalhadas", err);
+        console.error("ERRO DE API => root/lista-variacoes", err);
+        return [];
+    }
+};
+
+
+export const getPedidos = async () => {
+    try {
+        const response = await api.get('lista-pedidos/');
+        return response.data;
+    } catch (err) {
+        console.error("ERRO DE API => root/lista-pedidos", err);
         return [];
     }
 };
