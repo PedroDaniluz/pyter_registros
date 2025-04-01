@@ -2,6 +2,7 @@ import './OrderList.css'
 import NavBar from "../../components/NavBar";
 import { getPedidos } from '../../services/Api';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function OrderList() {
     const [listaPedidos, setListaPedidos] = useState([]);
@@ -13,6 +14,12 @@ export default function OrderList() {
             };
             fetchListaPedidos();
         }, []);
+
+        const navigate = useNavigate();
+
+        const handleRowClick = (id) => {
+            navigate(`/pedidos/${id}`);
+        }
     
     return (
         <main>
@@ -20,8 +27,6 @@ export default function OrderList() {
             <div className='orderList'>
                 <h1>Lista de Pedidos</h1>
                 <table>
-                    <colgroup>
-                    </colgroup>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -34,8 +39,8 @@ export default function OrderList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {listaPedidos.map(p => 
-                            <tr key={p.id_pedido}>
+                        {listaPedidos.map(p =>
+                            <tr key={p.id_pedido} style={{ cursor: 'pointer' }} onClick={() => handleRowClick(p.id_pedido)}>
                                 <td>{p.id_pedido}</td>
                                 <td>{p.situacao}</td>
                                 <td>{p.cliente}</td>
