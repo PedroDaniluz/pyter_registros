@@ -4,8 +4,10 @@ import ClientSection from './sections/ClientSection'
 import OrderSection from './sections/OrderSection'
 import ProductSection from './sections/ProductSection/index'
 import { useState } from 'react'
+import PaymentSection from './sections/PaymentSection'
 
 export default function Register() {
+    const [paymentData, setPaymentData] = useState();
     const [productData, setProductData] = useState();
     const [orderData, setOrderData] = useState();
     const [clientData, setClientData] = useState();
@@ -14,6 +16,7 @@ export default function Register() {
         type === 'client'? setClientData(data) :
         type === 'order'? setOrderData(data) :
         type === 'product'? setProductData(data) :
+        type === 'payment'? setPaymentData(data) :
         null;
     }
 
@@ -41,17 +44,18 @@ export default function Register() {
             <NavBar/>
             <form onSubmit={submit} className='register'>
                 <h1>Registrar Pedido</h1>
-                <div className='rsquareDiv'>
-                    <ClientSection
-                        updateData = {(value) => updateData('client', value)}
-                    />
-                    <OrderSection
-                        updateData = {(value) => updateData('order', value)}
-                    />
-                    <ProductSection
-                        updateData = {(value) => updateData('product', value)}
-                    />
-                </div>
+                <ClientSection
+                    updateData = {(value) => updateData('client', value)}
+                />
+                <OrderSection
+                    updateData = {(value) => updateData('order', value)}
+                />
+                <ProductSection
+                    updateData = {(value) => updateData('product', value)}
+                />
+                <PaymentSection
+                    updateData = {(value) => updateData('payment', value)}
+                />
                 <button type='submit'>salvar</button>
             </form>
         </main>

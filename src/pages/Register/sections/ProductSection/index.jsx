@@ -188,7 +188,7 @@ export default function ProductSection({ updateData }) {
         updateData(products);
     }, [products, updateData]);
 
-    const availableProdutosOptions = (availableProdutos ?? []).map(p => ({ value: p.id_produto, label: p.nome }));
+    const availableProdutosOptions = (availableProdutos ?? []).map(p => ({ value: p.id_produto, label: p.produto }));
 
     return (
         <div className='stdIn'>
