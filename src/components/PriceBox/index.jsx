@@ -9,7 +9,7 @@ export default function PriceBox({ id, title, value, width = 100 }) {
     return (
         <div className="textField" style={{ width: `${width}%` }}>
             <label htmlFor={id} className="textField--title">{title}</label>
-            <input id={id} className="textField--field" value={formatCurrency(value)} readOnly/>
+            <input id={id} className="textField--field" value={formatCurrency(value)} readOnly disabled/>
         </div>
     );
 }
