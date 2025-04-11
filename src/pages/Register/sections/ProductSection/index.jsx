@@ -130,8 +130,8 @@ export default function ProductSection({ updateData }) {
     const addAdicional = (productId) => {
         setProducts(prevProducts => prevProducts.map(product => {
             if (product.id === productId) {
-                 const newAdicionais = [...(product.adicionais ?? []), { id: crypto.randomUUID(), adicional: '', valorAdicional: '' }];
-                 return { ...product, adicionais: newAdicionais };
+                const newAdicionais = [...(product.adicionais ?? []), { id: crypto.randomUUID(), adicional: '', valorAdicional: '' }];
+                return { ...product, adicionais: newAdicionais };
             }
             return product;
         }));
@@ -142,11 +142,13 @@ export default function ProductSection({ updateData }) {
             if (product.id === productId && (product.adicionais ?? []).length > 0) {
                 const updatedAdicionais = product.adicionais.slice(0, -1);
                 const shouldDeactivate = updatedAdicionais.length === 0;
+
                 const updatedProduct = {
                     ...product,
                     adicionais: updatedAdicionais,
                     adicionaisAtivos: shouldDeactivate ? false : product.adicionaisAtivos
                 };
+
                 updatedProduct.preco = calculatePrice(updatedProduct);
                 return updatedProduct;
             }
@@ -169,20 +171,26 @@ export default function ProductSection({ updateData }) {
     };
 
     const handleToggleAdicionais = (productId, isActive) => {
-         setProducts(prevProducts => prevProducts.map(product => {
+        setProducts(prevProducts => prevProducts.map(product => {
             if (product.id === productId) {
                 let updatedProduct = { ...product, adicionaisAtivos: isActive };
 
-                 if (isActive && (updatedProduct.adicionais ?? []).length === 0) {
-                     updatedProduct = {...updatedProduct, adicionais: [{ id: crypto.randomUUID(), adicional: '', valorAdicional: '' }]};
-                 } else if (!isActive) {
-                     updatedProduct.preco = calculatePrice(updatedProduct);
-                 }
-                 return updatedProduct;
+                if (isActive) {
+                    if ((updatedProduct.adicionais ?? []).length === 0) {
+                        updatedProduct.adicionais = [{ id: crypto.randomUUID(), adicional: '', valorAdicional: 'R$ 0,00' }];
+                    }
+                } else {
+                    updatedProduct.adicionais = [];
+                }
+
+                updatedProduct.preco = calculatePrice(updatedProduct);
+
+                return updatedProduct;
             }
             return product;
         }));
     };
+
 
     useEffect(() => {
         updateData(products);

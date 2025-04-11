@@ -62,7 +62,7 @@ export default function ProductItem({
                 <SearchableDropdown
                     id={`prod-${product.id}-tamanho`}
                     title={'Tamanho'}
-                    placeholder={''}
+                    placeholder={'Selecione'}
                     width={100}
                     value={product.tamanho}
                     options={(product.avaliableTamanhos ?? []).map((tamanho) => ({ value: tamanho, label: tamanho }))}
@@ -111,21 +111,22 @@ export default function ProductItem({
                 <>
                     {(product.adicionais ?? []).map((adicional, index) => (
                         <div key={adicional.id} className='stdIn--inputs'>
-                            <SearchableDropdown
+                            <InputField
                                 id={`adicional-${product.id}-${adicional.id}-item`}
                                 title={'Adicional'}
-                                placeholder={'Selecione o item adicional'}
+                                type={'text'}
+                                placeholder={'Descreva o adicional'}
                                 value={adicional.adicional}
                                 onChange={(value) => handleAdicionalInputChange(index, 'adicional', value)}
                             />
                             <InputField
                                 id={`adicional-${product.id}-${adicional.id}-valor`}
                                 title={'Valor'}
-                                placeholder={'R$'}
                                 type={'text'}
                                 width={25}
                                 mask={'currency'}
                                 value={adicional.valorAdicional}
+                                defaultValue={adicional.valorAdicional}
                                 onChange={(value) => handleAdicionalInputChange(index, 'valorAdicional', value)}
                             />
                         </div>
