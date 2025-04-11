@@ -53,7 +53,7 @@ export default function OrderSection({ updateData }) {
                 />
                 <SearchableDropdown
                     id={useId()}
-                    options={instituicoes.map((i) => ({ value: i.id_instituicao, label: i.nome }))}
+                    options={instituicoes.map((i) => ({ value: i.id_instituicao, label: i.instituicao }))}
                     title={'Instituição (opcional)'}
                     placeholder={'Selecione a instituição'}
                     required={false}

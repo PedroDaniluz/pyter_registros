@@ -1,20 +1,34 @@
 import { useState, useEffect, useMemo, useId } from 'react';
-import SearchableDropdown from '../../../components/DropDown'; // supondo que seja um componente separado
+import SearchableDropdown from '../../../components/DropDown';
+import InputField from '../../../components/InputField';
+import PriceBox from '../../../components/PriceBox';
 
 const pagamento_options = {
-    'CAIXA': [{ 'DINHEIRO': 1 }, { 'PIX': 1 }],
-    'PICPAY': [{ 'CRÉDITO': 3 }, { 'DÉBITO': 1 }, { 'PIX': 1 }],
-    'SUMUP': [{ 'CRÉDITO': 3 }, { 'DÉBITO': 1 }, { 'PIX': 1 }]
+    Caixa: {
+        Dinheiro: 1,
+        PIX: 1
+    },
+    PicPay: {
+        Crédito: 3,
+        Débito: 1,
+        PIX: 1
+    },
+    Sumup: {
+        Crédito: 3,
+        Débito: 1,
+        PIX: 1
+    }
 };
 
-export default function PaymentSection({ updateData }) {
+
+export default function PaymentSection({ updateData, total }) {
     const [paymentData, setPaymentData] = useState({
         meio_pg: '',
         forma_pg: '',
         parcelas: 1,
-        desconto: 0,
-        valor_final: 0,
-        valor_pago: 0,
+        desconto: 'R$ 0,00',
+        valor_final: total,
+        valor_pago: 'R$ 0,00',
         cod_aut: '',
         observacoes: ''
     });
@@ -23,10 +37,21 @@ export default function PaymentSection({ updateData }) {
         setPaymentData(prevState => ({
             ...prevState,
             [key]: value,
-            ...(key === 'meio_pg' ? { forma_pg: '', parcelas: 1 } : {}),
+            ...(key === 'meio_pg' ? {
+                forma_pg: '',
+                parcelas: 1,
+                cod_aut: ''
+            } : {}),
             ...(key === 'forma_pg' ? { parcelas: 1 } : {})
         }));
     };
+
+    useEffect(() => {
+        setPaymentData(prev => ({
+            ...prev,
+            valor_final: total
+        }));
+    }, [total]);
 
     useEffect(() => {
         updateData(paymentData);
@@ -34,27 +59,21 @@ export default function PaymentSection({ updateData }) {
 
     const meiosPagamento = useMemo(() =>
         Object.keys(pagamento_options).map(meio => ({ label: meio, value: meio }))
-    , []);
+        , []);
 
     const formasPagamento = useMemo(() => {
-        const selected = pagamento_options[paymentData.meio_pg];
-        if (!selected) return [];
-        return selected.map(item => {
-            const forma = Object.keys(item)[0];
-            return { label: forma, value: forma };
-        });
+        if (!paymentData.meio_pg) return [];
+        return Object.keys(pagamento_options[paymentData.meio_pg])
+            .map(forma => ({ label: forma, value: forma }));
     }, [paymentData.meio_pg]);
 
     const parcelasOptions = useMemo(() => {
-        const formas = pagamento_options[paymentData.meio_pg];
-        if (!formas) return [];
-        const formaObj = formas.find(f => Object.keys(f)[0] === paymentData.forma_pg);
-        if (!formaObj) return [];
-        const max = formaObj[paymentData.forma_pg];
-        return Array.from({ length: max }, (_, i) => {
-            const num = i + 1;
-            return { label: `${num}x`, value: num };
-        });
+        const max = pagamento_options?.[paymentData.meio_pg]?.[paymentData.forma_pg];
+        if (!max) return [];
+        return Array.from({ length: max }, (_, i) => ({
+            label: `${i + 1}x`,
+            value: i + 1
+        }));
     }, [paymentData.meio_pg, paymentData.forma_pg]);
 
 
@@ -68,7 +87,7 @@ export default function PaymentSection({ updateData }) {
                     title={'Meio de Pagamento'}
                     placeholder={'Selecione'}
                     value={paymentData.meio_pg}
-                    onChange={(option) => handleChange('meio_pg', option)}
+                    onChange={(value) => handleChange('meio_pg', value)}
                 />
                 <SearchableDropdown
                     id={useId()}
@@ -76,7 +95,7 @@ export default function PaymentSection({ updateData }) {
                     title={'Forma de Pagamento'}
                     placeholder={'Selecione'}
                     value={paymentData.forma_pg}
-                    onChange={(option) => handleChange('forma_pg', option)}
+                    onChange={(value) => handleChange('forma_pg', value)}
                 />
                 <SearchableDropdown
                     id={useId()}
@@ -84,7 +103,44 @@ export default function PaymentSection({ updateData }) {
                     title={'Parcelas'}
                     placeholder={'Selecione'}
                     value={paymentData.parcelas}
-                    onChange={(option) => handleChange('parcelas', Number(option))}
+                    onChange={(value) => handleChange('parcelas', Number(value))}
+                />
+                <PriceBox
+                    id={useId()}
+                    title={'Valor Total'}
+                    value={total}
+                    width={12}
+                />
+            </div>
+            <div className='stdIn--inputs'>
+                <InputField
+                    id={useId()}
+                    title={'Valor Pago'}
+                    type={'text'}
+                    mask={'currency'}
+                    width={20}
+                    value={paymentData.valor_pago}
+                    defaultValue={paymentData.valor_pago}
+                    onChange={(value) => handleChange('valor_pago', value)}
+                />
+                <InputField
+                    id={useId()}
+                    title={'Codigo de Autorização (Maquininhas)'}
+                    placeholder={'Insira o código de autorização de venda'}
+                    type={'text'}
+                    required={false}
+                    disabled={paymentData.meio_pg === 'Caixa'}
+                    value={paymentData.cod_aut}
+                    onChange={(value) => handleChange('cod_aut', value)}
+                />
+                <InputField
+                    id={useId()}
+                    title={'Observações (Opcional)'}
+                    placeholder={'Insira as observações de pagamento'}
+                    type={'text'}
+                    required={false}
+                    value={paymentData.observacoes}
+                    onChange={(value) => handleChange('observacoes', value)}
                 />
             </div>
         </section>

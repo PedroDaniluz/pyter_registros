@@ -31,7 +31,7 @@ export default function ClientSection({ updateData }) {
                     type={'text'}
                     mask={'999.999.999-99'}
                     width={80}
-                    onChange={(value) => handleChange('telefone', value)}
+                    onChange={(value) => handleChange('cpf', value)}
                 />
                 <InputField
                     id={useId()}

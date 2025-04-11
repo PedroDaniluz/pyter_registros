@@ -20,10 +20,16 @@ export default function Register() {
         null;
     }
 
+    let valorTotal = productData?.reduce((acc, product) => {
+        return (acc + parseFloat(product.preco));
+    }, 0)
+
+
     const submit = (e) => {
         e.preventDefault();
         console.log(clientData);
         console.log(orderData);
+        console.log(paymentData);
         const relevantProductData = productData.map(product => {
             return {
                 produto: product.produto,
@@ -55,6 +61,7 @@ export default function Register() {
                 />
                 <PaymentSection
                     updateData = {(value) => updateData('payment', value)}
+                    total={valorTotal}
                 />
                 <button type='submit'>salvar</button>
             </form>
