@@ -2,8 +2,7 @@ import './InputField.css';
 import InputMask from '@mona-health/react-input-mask';
 import { useState, useEffect } from 'react';
 
-export default function InputField({
-    id, title, placeholder, required = true, type, mask, defaultValue, onChange, width = 100, min }) {
+export default function InputField({id, title, placeholder, required = true, disabled = false, type, mask, defaultValue, onChange, width = 100, min }) {
     const [value, setValue] = useState(defaultValue ?? ''); 
     
     useEffect(() => {
@@ -60,16 +59,18 @@ const handleChange = (e) => {
                 />
             ) : isCurrency ? (
                  <input
-                     id={id}
-                     required={required}
-                     className="textField--field"
-                     type={'text'}
-                     placeholder={placeholder}
-                     value={value}
-                     onChange={handleChange}
+                    disabled={disabled}
+                    id={id}
+                    required={required}
+                    className="textField--field"
+                    type={'text'}
+                    placeholder={placeholder}
+                    value={value}
+                    onChange={handleChange}
                  />
             ) : (
                 <input
+                    disabled={disabled}
                     id={id}
                     required={required}
                     className="textField--field"

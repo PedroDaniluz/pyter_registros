@@ -7,7 +7,7 @@ const a = [
 ];
 
 
-export default function SearchableDropdown({ id, title, placeholder, options = a, required = true, onChange, width = 100, value, isClearable = false }) {
+export default function SearchableDropdown({ id, title, placeholder, options = a, required = true, onChange, width = 100, value, isClearable = false, disabled = false }) {
 
   const selectedOption = useMemo(() => {
     if (value === null || value === undefined || value === '') {
@@ -71,6 +71,7 @@ const handleChange = (selectedOptionParam) => {
         placeholder={placeholder}
         isSearchable
         isClearable={isClearable}
+        isDisabled={disabled}
         styles={customStyles}
         onChange={handleChange}
       />
