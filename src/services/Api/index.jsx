@@ -68,4 +68,15 @@ export const getPedidoItens = async (id) => {
 };
 
 
+export const registrarPedidoCompleto = async (dados) => {
+    try {
+        const response = await api.post("registrar-pedido/", dados);
+        return response.data;
+    } catch (err) {
+        console.error("ERRO DE API => registrar-pedido", err);
+        throw err;
+    }
+};
+
+
 export default api;

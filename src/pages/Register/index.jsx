@@ -4,6 +4,7 @@ import ClientSection from './sections/ClientSection'
 import OrderSection from './sections/OrderSection'
 import ProductSection from './sections/ProductSection/index'
 import { useState } from 'react'
+import { registrarPedidoCompleto } from '../../services/Api'
 import PaymentSection from './sections/PaymentSection'
 
 export default function Register() {
@@ -25,25 +26,60 @@ export default function Register() {
     }, 0)
 
 
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault();
-        console.log(clientData);
-        console.log(orderData);
-        console.log(paymentData);
-        const relevantProductData = productData.map(product => {
-            return {
-                produto: product.produto,
-                categoria: product.categoria,
-                material: product.material,
-                quantidade: product.quantidade,
-                tamanho: product.tamanho,
-                preco: product.preco,
-                observacoes: product.observacoes,
-                adicionais: product.adicionais.map(add => {return{adiconal: add.adicional, valor: add.valorAdicional}})
+    
+        try {
+            const pedidoCompleto = {
+                cliente: clientData, // { cpf, nome, telefone, email }
+                pedido: {
+                    data_pedido: orderData.data,
+                    data_prazo: orderData.prazo,
+                    id_instituicao: orderData.instituicao,
+                    modalidade: "PR",
+                    id_situacao: 1,
+                    observacao: "",
+                    valor_total: parseFloat(valorTotal),
+                    valor_pago: parseFloat(paymentData.valor_pago.replace(/[^\d,.-]/g, "").replace(",", ".")),
+                },
+                itens: productData.map(prod => {
+                    // Converte o valor dos adicionais
+                    const adicionaisConvertidos = prod.adicionais.map(adicional => ({
+                        ...adicional,
+                        valorAdicional: parseFloat(
+                            adicional.valorAdicional
+                                .replace(/[^\d,.-]/g, "")
+                                .replace(",", ".")
+                        )
+                    }));
+    
+                    return {
+                        id_variacao: prod.id_variacao,
+                        quantidade: prod.quantidade,
+                        adicionais: adicionaisConvertidos,
+                        descontos: null,
+                        preco_unitario_base: parseFloat(prod.preco_base)
+                    };
+                }),
+                pagamento: {
+                    meio_pagamento: paymentData.meio_pg,
+                    forma_pagamento: paymentData.forma_pg,
+                    valor: parseFloat(paymentData.valor_pago.replace(/[^\d,.-]/g, "").replace(",", ".")),
+                    cod_autorizacao: paymentData.cod_aut || ""
+                }
             };
-        });
-        console.log(relevantProductData);
-    }
+    
+            const response = await registrarPedidoCompleto(pedidoCompleto);
+            console.log("Pedido registrado com sucesso:", response);
+            console.log(pedidoCompleto)
+            alert("Pedido salvo com sucesso!");
+    
+        } catch (error) {
+            console.log("Erro ao salvar o pedido:", error);
+            alert("Erro ao salvar o pedido. Veja o console para mais detalhes.");
+        }
+    };
+    
 
     return (
         <main>

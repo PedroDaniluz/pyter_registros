@@ -5,11 +5,9 @@ import ProductItem from './ProductItem';
 const createEmptyProduct = () => ({
     id: crypto.randomUUID(),
     produto: '',
-    categoria: '',
-    material: '',
+    id_variacao: null,
     quantidade: 1,
-    tamanho: '',
-    preco: '',
+    preco_base: 0,
     observacoes: '',
     adicionaisAtivos: false,
     adicionais: [],
@@ -44,7 +42,6 @@ export default function ProductSection({ updateData }) {
     const calculatePrice = (product) => {
         if (!product) return '0.00';
 
-        let basePrice = 0;
         if (product.produto && product.categoria && product.material && product.tamanho && variacoes.length > 0) {
             const foundVariacao = variacoes.find(v =>
                 v.id_produto === product.produto &&
@@ -53,7 +50,8 @@ export default function ProductSection({ updateData }) {
                 v.tamanho === product.tamanho
             );
             if (foundVariacao && foundVariacao.preco) {
-                basePrice = parseFloat(foundVariacao.preco) || 0;
+                product.id_variacao = foundVariacao.id_variacao
+                product.preco_base = parseFloat(foundVariacao.preco) || 0;
             }
         }
 
@@ -64,7 +62,7 @@ export default function ProductSection({ updateData }) {
 
         const quantity = Math.max(1, parseInt(product.quantidade, 10) || 1);
 
-        return ((basePrice + adicionaisPrice) * quantity).toFixed(2);
+        return ((product.preco_base + adicionaisPrice) * quantity).toFixed(2);
     };
 
 

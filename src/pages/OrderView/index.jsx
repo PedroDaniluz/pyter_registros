@@ -30,8 +30,8 @@ export default function OrderView() {
         <main>
             <NavBar/>
             <div>
-                <button onClick={() => console.log(pedidoInfo)}>a</button>
-                <button onClick={() => console.log(pedidoItens)}>b</button>
+                <button onClick={() => console.table(pedidoInfo)}>a</button>
+                <button onClick={() => console.table(pedidoItens)}>b</button>
             </div>
         </main>
     )
