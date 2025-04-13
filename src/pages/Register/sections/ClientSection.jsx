@@ -52,6 +52,7 @@ export default function ClientSection({ updateData }) {
                 <InputField
                     id={useId()}
                     title='Email (opcional)'
+                    required={false}
                     placeholder='Insira o email do cliente'
                     type={'email'}
                     onChange={(value) => handleChange('email', value)}

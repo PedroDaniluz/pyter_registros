@@ -59,6 +59,7 @@ export default function OrderSection({ updateData }) {
                     required={false}
                     value={orderData.instituicao}
                     onChange={(value) => handleChange('instituicao', value)}
+                    isClearable
                 />
             </div>
         </section>
