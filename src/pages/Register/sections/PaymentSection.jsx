@@ -120,7 +120,7 @@ export default function PaymentSection({ updateData, total }) {
                     mask={'currency'}
                     width={20}
                     value={paymentData.valor_pago}
-                    defaultValue={paymentData.valor_pago}
+                    defaultValue={`R$ ${total || '0'},00`}
                     onChange={(value) => handleChange('valor_pago', value)}
                 />
                 <InputField
