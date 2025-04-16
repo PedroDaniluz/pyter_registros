@@ -14,11 +14,11 @@ export default function Register() {
     const [clientData, setClientData] = useState();
 
     const updateData = (type, data) => {
-        type === 'client'? setClientData(data) :
-        type === 'order'? setOrderData(data) :
-        type === 'product'? setProductData(data) :
-        type === 'payment'? setPaymentData(data) :
-        null;
+        type === 'client' ? setClientData(data) :
+            type === 'order' ? setOrderData(data) :
+                type === 'product' ? setProductData(data) :
+                    type === 'payment' ? setPaymentData(data) :
+                        null;
     }
 
     let valorTotal = productData?.reduce((acc, product) => {
@@ -28,10 +28,10 @@ export default function Register() {
 
     const submit = async (e) => {
         e.preventDefault();
-    
+
         try {
             const pedidoCompleto = {
-                cliente: clientData, // { cpf, nome, telefone, email }
+                cliente: clientData,
                 pedido: {
                     data_pedido: orderData.data,
                     data_prazo: orderData.prazo,
@@ -43,16 +43,17 @@ export default function Register() {
                     valor_pago: parseFloat(paymentData.valor_pago.replace(/[^\d,.-]/g, "").replace(",", ".")),
                 },
                 itens: productData.map(prod => {
-                    // Converte o valor dos adicionais
-                    const adicionaisConvertidos = prod.adicionais.map(adicional => ({
-                        ...adicional,
-                        valorAdicional: parseFloat(
-                            adicional.valorAdicional
-                                .replace(/[^\d,.-]/g, "")
-                                .replace(",", ".")
-                        )
-                    }));
-    
+                    const adicionaisConvertidos = prod.adicionais.map(adicional => {
+                        const { id, ...adicionalSemId } = adicional;
+                        return {
+                            ...adicionalSemId,
+                            valorAdicional: parseFloat(
+                                adicional.valorAdicional
+                                    .replace(/[^\d,.-]/g, "")
+                                    .replace(",", ".")
+                            )
+                        };
+                    });
                     return {
                         id_variacao: prod.id_variacao,
                         quantidade: prod.quantidade,
@@ -61,6 +62,7 @@ export default function Register() {
                         preco_unitario_base: parseFloat(prod.preco_base)
                     };
                 }),
+
                 pagamento: {
                     meio_pagamento: paymentData.meio_pg,
                     forma_pagamento: paymentData.forma_pg,
@@ -68,35 +70,35 @@ export default function Register() {
                     cod_autorizacao: paymentData.cod_aut || ""
                 }
             };
-    
+
             const response = await registrarPedidoCompleto(pedidoCompleto);
             console.log("Pedido registrado com sucesso:", response);
             console.log(pedidoCompleto)
             alert("Pedido salvo com sucesso!");
-    
+
         } catch (error) {
             console.log("Erro ao salvar o pedido:", error);
             alert("Erro ao salvar o pedido. Veja o console para mais detalhes.");
         }
     };
-    
+
 
     return (
         <main>
-            <NavBar/>
+            <NavBar />
             <form onSubmit={submit} className='register'>
                 <h1>Registrar Pedido</h1>
                 <ClientSection
-                    updateData = {(value) => updateData('client', value)}
+                    updateData={(value) => updateData('client', value)}
                 />
                 <OrderSection
-                    updateData = {(value) => updateData('order', value)}
+                    updateData={(value) => updateData('order', value)}
                 />
                 <ProductSection
-                    updateData = {(value) => updateData('product', value)}
+                    updateData={(value) => updateData('product', value)}
                 />
                 <PaymentSection
-                    updateData = {(value) => updateData('payment', value)}
+                    updateData={(value) => updateData('payment', value)}
                     total={valorTotal}
                 />
                 <button type='submit'>salvar</button>
