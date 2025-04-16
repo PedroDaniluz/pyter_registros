@@ -1,36 +1,29 @@
 import { useEffect, useState } from 'react';
-import { getProdutos, getVariacoes } from '../../../../services/Api';
+import { getVariacoes } from '../../../../services/Api';
 import ProductItem from './ProductItem';
 
 const createEmptyProduct = () => ({
     id: crypto.randomUUID(),
-    produto: '',
+    produto: null,
     id_variacao: null,
     quantidade: 1,
     preco_base: 0,
-    observacoes: '',
+    observacoes: null,
     adicionaisAtivos: false,
     adicionais: [],
-    avaliableCategorias: [],
-    avaliableMateriais: [],
-    avaliableTamanhos: []
 });
 
 export default function ProductSection({ updateData }) {
     const [products, setProducts] = useState([createEmptyProduct()]);
-    const [availableProdutos, setAvailableProdutos] = useState([]);
     const [variacoes, setVariacoes] = useState([]);
 
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [produtosData, variacoesData] = await Promise.all([
-                    getProdutos(),
-                    getVariacoes()
-                ]);
-                setAvailableProdutos(produtosData || []);
+                const variacoesData = await getVariacoes();
                 setVariacoes(variacoesData || []);
+                variacoesData.map(p => console.log(p.produto))
             } catch (error) {
                 console.error("Erro ao buscar dados iniciais:", error);
             }
@@ -42,18 +35,25 @@ export default function ProductSection({ updateData }) {
     const calculatePrice = (product) => {
         if (!product) return '0.00';
 
-        if (product.produto && product.categoria && product.material && product.tamanho && variacoes.length > 0) {
-            const foundVariacao = variacoes.find(v =>
-                v.id_produto === product.produto &&
-                v.id_categoria === product.categoria &&
-                v.id_material === product.material &&
-                v.tamanho === product.tamanho
-            );
-            if (foundVariacao && foundVariacao.preco) {
-                product.id_variacao = foundVariacao.id_variacao
-                product.preco_base = parseFloat(foundVariacao.preco) || 0;
+        if (
+            product.produto &&
+            product.categoria &&
+            product.material &&
+            product.tamanho
+        ) {
+            const produtoEncontrado = variacoes.find(p => p.produto === product.produto);
+            const categoriaEncontrada = produtoEncontrado?.categorias.find(c => c.categoria === product.categoria);
+            const materialEncontrado = categoriaEncontrada?.materiais.find(m => m.material === product.material);
+            const variacaoEncontrada = materialEncontrado?.variacoes.find(v => v.tamanho === product.tamanho);
+
+            if (variacaoEncontrada) {
+                product.id_variacao = variacaoEncontrada.id;
+                product.preco_base = variacaoEncontrada.preco || 0;
+            } else {
+                product.preco_base = 0;
             }
         }
+
 
         let adicionaisPrice = (product.adicionais ?? []).reduce((total, adicional) => {
             const cleanValue = adicional.valorAdicional?.toString().replace(/[^0-9,-]+/g, "").replace(",", ".") || "0";
@@ -73,34 +73,6 @@ export default function ProductSection({ updateData }) {
                 if (!skipPriceCalc) {
                     updatedProduct.preco = calculatePrice(updatedProduct);
                 }
-                return updatedProduct;
-            }
-            return product;
-        }));
-    };
-
-    const handleProductChange = (id, key, selectedProductId) => {
-        const relevantVariacoes = (variacoes ?? []).filter(v => v.id_produto === selectedProductId);
-
-        const uniqueCategorias = Array.from(new Map(relevantVariacoes.map(v => [v.id_categoria, { id_categoria: v.id_categoria, nome: v.categoria }])).values());
-        const uniqueMateriais = Array.from(new Map(relevantVariacoes.map(v => [v.id_material, { id_material: v.id_material, nome: v.material }])).values());
-        const uniqueTamanhos = Array.from(new Set(relevantVariacoes.map(v => v.tamanho).filter(t => t)));
-
-        setProducts(prevProducts => prevProducts.map(product => {
-            if (product.id === id) {
-                const updatedProduct = {
-                    ...product,
-                    [key]: selectedProductId,
-                    categoria: '',
-                    material: '',
-                    tamanho: '',
-                    preco: '',
-                    quantidade: 1,
-                    avaliableCategorias: uniqueCategorias,
-                    avaliableMateriais: uniqueMateriais,
-                    avaliableTamanhos: uniqueTamanhos
-                };
-                updatedProduct.preco = calculatePrice(updatedProduct);
                 return updatedProduct;
             }
             return product;
@@ -194,8 +166,6 @@ export default function ProductSection({ updateData }) {
         updateData(products);
     }, [products, updateData]);
 
-    const availableProdutosOptions = (availableProdutos ?? []).map(p => ({ value: p.id_produto, label: p.produto }));
-
     return (
         <div className='stdIn'>
             <h2>Produtos</h2>
@@ -203,10 +173,9 @@ export default function ProductSection({ updateData }) {
                 <ProductItem
                     key={product.id}
                     product={product}
-                    availableProdutosOptions={availableProdutosOptions}
+                    availableProdutosOptions={variacoes}
                     onRemove={removeProduct}
                     onChange={handleChange}
-                    onProductChange={handleProductChange}
                     onToggleAdicionais={handleToggleAdicionais}
                     onAddAdicional={addAdicional}
                     onRemoveAdicional={removeAdicional}

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import InputField from '../../../../../components/InputField';
 import SearchableDropdown from '../../../../../components/DropDown';
 import SwitchButton from '../../../../../components/SwitchButton';
@@ -10,15 +10,74 @@ export default function ProductItem({
     availableProdutosOptions,
     onRemove,
     onChange,
-    onProductChange,
     onToggleAdicionais,
     onAddAdicional,
     onRemoveAdicional,
     onAdicionalChange,
 }) {
+    const produtosDisponiveis = availableProdutosOptions.map((p) => ({ value: p.produto, label: p.produto }))
+    const [categoriasDisponiveis, setCategoriasDisponiveis] = useState([]);
+    const [materiaisDisponiveis, setMateriaisDisponiveis] = useState([]);
+    const [tamanhosDisponiveis, setTamanhosDisponiveis] = useState([]);
 
-    const handleInputChange = (key, value) => {
-        onChange(product.id, key, value);
+    useEffect(() => {
+        const produtoSelecionado = availableProdutosOptions.find(
+            (p) => p.produto === product.produto
+        );
+
+        if (produtoSelecionado) {
+            const categorias = produtoSelecionado.categorias.map((cat) => ({
+                value: cat.categoria,
+                label: cat.categoria,
+                materiais: cat.materiais,
+                tamanhos: cat.tamanhos,
+            }));
+            setCategoriasDisponiveis(categorias);
+        } else {
+            setCategoriasDisponiveis([]);
+            setMateriaisDisponiveis([]);
+            setTamanhosDisponiveis([]);
+        }
+    }, [product.produto, availableProdutosOptions]);
+
+    useEffect(() => {
+        const categoriaSelecionada = categoriasDisponiveis.find(
+            (cat) => cat.value === product.categoria
+        );
+
+        if (categoriaSelecionada) {
+            const materiaisMapeados = categoriaSelecionada.materiais.map((mat) => ({
+                value: mat.material,
+                label: mat.material,
+                variacoes: mat.variacoes,
+            }));
+
+            setMateriaisDisponiveis(materiaisMapeados);
+
+            const materialSelecionado = materiaisMapeados.find(
+                (m) => m.value === product.material
+            );
+
+            if (materialSelecionado) {
+                setTamanhosDisponiveis(
+                    materialSelecionado.variacoes.map((v) => ({
+                        value: v.tamanho,
+                        label: v.tamanho,
+                        preco: v.preco,
+                    }))
+                );
+            } else {
+                setTamanhosDisponiveis([]);
+            }
+        } else {
+            setMateriaisDisponiveis([]);
+            setTamanhosDisponiveis([]);
+        }
+    }, [product.categoria, product.material, categoriasDisponiveis]);
+
+
+    const handleInputChange = (key, value, x = null) => {
+        onChange(product.id, key, value, x);
     };
 
     const handleAdicionalInputChange = (index, key, value) => {
@@ -37,8 +96,8 @@ export default function ProductItem({
                     title={'Produto'}
                     placeholder={'Selecione'}
                     value={product.produto}
-                    options={availableProdutosOptions}
-                    onChange={(value) => onProductChange(product.id, 'produto', value)}
+                    options={produtosDisponiveis}
+                    onChange={(value) => handleInputChange('produto', value)}
                     isClearable
                 />
                 <SearchableDropdown
@@ -46,7 +105,7 @@ export default function ProductItem({
                     title={'Categoria'}
                     placeholder={'Selecione'}
                     value={product.categoria}
-                    options={(product.avaliableCategorias ?? []).map((i) => ({ value: i.id_categoria, label: i.nome }))}
+                    options={categoriasDisponiveis}
                     onChange={(value) => handleInputChange('categoria', value)}
                     disabled={!product.produto}
                 />
@@ -55,9 +114,9 @@ export default function ProductItem({
                     title={'Material'}
                     placeholder={'Selecione'}
                     value={product.material}
-                    options={(product.avaliableMateriais ?? []).map((i) => ({ value: i.id_material, label: i.nome }))}
+                    options={materiaisDisponiveis}
                     onChange={(value) => handleInputChange('material', value)}
-                    disabled={!product.produto}
+                    disabled={!product.categoria}
                 />
                 <SearchableDropdown
                     id={`prod-${product.id}-tamanho`}
@@ -65,9 +124,9 @@ export default function ProductItem({
                     placeholder={'Selecione'}
                     width={100}
                     value={product.tamanho}
-                    options={(product.avaliableTamanhos ?? []).map((tamanho) => ({ value: tamanho, label: tamanho }))}
+                    options={tamanhosDisponiveis}
                     onChange={(value) => handleInputChange('tamanho', value)}
-                    disabled={!product.produto}
+                    disabled={!product.material}
                 />
                 <InputField
                     id={`prod-${product.id}-quantidade`}
@@ -82,7 +141,7 @@ export default function ProductItem({
                 <PriceBox
                     id={`prod-${product.id}-preco`}
                     title={'Preço'}
-                    value={product.preco} 
+                    value={product.preco}
                     width={10}
                 />
             </div>
@@ -103,7 +162,7 @@ export default function ProductItem({
                     placeholder={'Adicionais pagos'}
                     width={25}
                     value={product.adicionaisAtivos}
-                    onToggleChange={(value) => onToggleAdicionais(product.id, value)} 
+                    onToggleChange={(value) => onToggleAdicionais(product.id, value)}
                 />
             </div>
 
