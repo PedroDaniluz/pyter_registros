@@ -90,7 +90,7 @@ export default function OrderList() {
                                     <td>{String(p.data).split('-').reverse().join("/")}</td>
                                     <td>{String(p.prazo).split('-').reverse().join("/")}</td>
                                     <td>{p.instituicao || '-'}</td>
-                                    <td>R$ {String(p.valor).replace('.', ',')}</td>
+                                    <td>R$ {String(parseFloat(p.valor_total).toFixed(2)).replace('.', ',')}</td>
                                 </tr>
                             ))
                         )}
