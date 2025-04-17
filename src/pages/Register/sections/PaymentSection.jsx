@@ -78,9 +78,9 @@ export default function PaymentSection({ updateData, total }) {
 
 
     return (
-        <section className='stdIn'>
+        <section className='inputCard'>
             <h2>Pagamento</h2>
-            <div className='stdIn--inputs'>
+            <div className='inputCard--fields'>
                 <SearchableDropdown
                     id={useId()}
                     options={meiosPagamento}
@@ -112,7 +112,7 @@ export default function PaymentSection({ updateData, total }) {
                     width={12}
                 />
             </div>
-            <div className='stdIn--inputs'>
+            <div className='inputCard--fields'>
                 <InputField
                     id={useId()}
                     title={'Valor Pago'}

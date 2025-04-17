@@ -14,16 +14,6 @@ export const getInstituicoes = async () => {
     }
 };
 
-export const getProdutos = async () => {
-    try {
-        const response = await api.get("produtos/");
-        return response.data;
-    } catch (err) {
-        console.error("ERRO DE API => root/produtos", err);
-        return [];
-    }
-};
-
 export const getVariacoes = async () => {
     try {
         const response = await api.get('lista-variacoes/');

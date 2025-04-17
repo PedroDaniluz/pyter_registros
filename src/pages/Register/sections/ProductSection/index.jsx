@@ -167,7 +167,7 @@ export default function ProductSection({ updateData }) {
     }, [products, updateData]);
 
     return (
-        <div className='stdIn'>
+        <div className='inputCard'>
             <h2>Produtos</h2>
             {(products ?? []).map((product) => (
                 <ProductItem

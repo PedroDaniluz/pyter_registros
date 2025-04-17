@@ -17,7 +17,7 @@ main {
     margin-bottom: 32px;
 }
 
-.stdIn {
+.inputCard {
     margin-bottom: 24px;
     display: flex;
     flex-direction: column;
@@ -28,13 +28,13 @@ main {
     padding: 32px 44px;
 }
 
-.stdIn h2 {
+.inputCard h2 {
     font-family: 'Franie';
     font-weight: 600;
     font-size: 1.5rem;
 }
 
-.stdIn--inputs{
+.inputCard--fields {
     display: flex;
     gap: 10px;
     width: 100%;

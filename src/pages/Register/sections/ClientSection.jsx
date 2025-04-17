@@ -21,9 +21,9 @@ export default function ClientSection({ updateData }) {
     }, [clientData]);
 
     return (
-        <section className='stdIn'>
+        <section className='inputCard'>
             <h2>Cliente</h2>
-            <div className='stdIn--inputs'>
+            <div className='inputCard--fields'>
                 <InputField
                     id={useId()}
                     title='CPF'

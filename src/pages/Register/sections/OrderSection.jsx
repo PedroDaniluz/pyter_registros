@@ -32,9 +32,9 @@ export default function OrderSection({ updateData }) {
     }, [orderData]);
 
     return (
-        <section className='stdIn'>
+        <section className='inputCard'>
             <h2>Pedido</h2>
-            <div className='stdIn--inputs'>
+            <div className='inputCard--fields'>
                 <InputField
                     id={useId()}
                     title='Data'

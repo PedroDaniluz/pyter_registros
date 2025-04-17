@@ -90,7 +90,7 @@ export default function ProductItem({
                 <img src={removeIcon} alt="icone de X" />
             </button>
 
-            <div className='stdIn--inputs'>
+            <div className='inputCard--fields'>
                 <SearchableDropdown
                     id={`prod-${product.id}-produto`}
                     title={'Produto'}
@@ -146,7 +146,7 @@ export default function ProductItem({
                 />
             </div>
 
-            <div className='stdIn--inputs'>
+            <div className='inputCard--fields'>
                 <InputField
                     id={`prod-${product.id}-observacoes`}
                     title={'Observações (opcional)'}
