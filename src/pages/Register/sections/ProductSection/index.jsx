@@ -23,7 +23,6 @@ export default function ProductSection({ updateData }) {
             try {
                 const variacoesData = await getVariacoes();
                 setVariacoes(variacoesData || []);
-                variacoesData.map(p => console.log(p.produto))
             } catch (error) {
                 console.error("Erro ao buscar dados iniciais:", error);
             }
