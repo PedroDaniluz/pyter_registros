@@ -11,6 +11,11 @@
     font-size: 0.9rem;
 }
 
+.textField--title[disabled]{
+    font-weight: 400;
+    color: #7a7a7a;
+}
+
 .textField--field {
     font-family: 'Inter';
     color: #7a7a7a;
@@ -21,6 +26,20 @@
     background-color: var(--background-color);
 }
 
+.textField--field[disabled]{
+    color: #a7a7a7;
+}
+
+.textField--field[readonly]{
+    cursor: default;
+}
+
+.textField--field[readonly]:focus{
+    cursor: default;
+    border: 1.5px solid var(--grey-stroke);
+}
+
 .textField--field:focus {
     outline: none;
+    border: 1.5px solid #a7a7a7;
 }

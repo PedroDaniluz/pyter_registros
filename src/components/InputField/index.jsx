@@ -44,7 +44,7 @@ const handleChange = (e) => {
 
     return (
         <div className="textField" style={{ width: `${width}%` }}>
-            <label htmlFor={id} className="textField--title">{title}</label>
+            <label htmlFor={id} className="textField--title" disabled={disabled}>{title}</label>
 
             {mask && !isCurrency ? (
                 <InputMask

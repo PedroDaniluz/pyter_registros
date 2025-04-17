@@ -76,8 +76,12 @@ export default function ProductItem({
     }, [product.categoria, product.material, categoriasDisponiveis]);
 
 
-    const handleInputChange = (key, value, x = null) => {
-        onChange(product.id, key, value, x);
+    const handleInputChange = (key, value) => {
+        if (key === 'produto' && (value === '' || value === null)) {
+            product.categoria = null;
+            product.material = null;
+            product.tamanho = null;}
+        onChange(product.id, key, value);
     };
 
     const handleAdicionalInputChange = (index, key, value) => {
@@ -137,12 +141,14 @@ export default function ProductItem({
                     defaultValue={product.quantidade}
                     min={1}
                     onChange={(value) => handleInputChange('quantidade', Math.max(1, parseInt(value, 10) || 1))}
+                    disabled={!product.tamanho}
                 />
                 <PriceBox
                     id={`prod-${product.id}-preco`}
                     title={'Preço'}
                     value={product.preco}
                     width={10}
+                    disabled={!product.tamanho}
                 />
             </div>
 

@@ -26,15 +26,16 @@ const handleChange = (selectedOptionParam) => {
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
-      border: "1.5px solid var(--grey-stroke)",
+      border: state.isFocused? "1.5px solid #a7a7a7": "1.5px solid var(--grey-stroke)",
       borderRadius: "6px",
       padding: "2px",
       fontSize: "0.8rem",
       backgroundColor: "var(--background-color)",
       color: "#7a7a7a",
       boxShadow: state.isFocused ? "none" : "none",
+      cursor: state.isDisabled ? "not-allowed" : "pointer",
       "&:hover": {
-        borderColor: "var(--grey-stroke)",
+        borderColor: "#a7a7a7",
       }
     }),
     menu: (provided) => ({
@@ -49,9 +50,9 @@ const handleChange = (selectedOptionParam) => {
       padding: "10px",
       cursor: "pointer",
     }),
-    placeholder: (provided) => ({
+    placeholder: (provided, state) => ({
       ...provided,
-      color: "#7a7a7a",
+      color: state.isDisabled? '#a7a7a7':"#7a7a7a",
     }),
     singleValue: (provided) => ({
       ...provided,
@@ -61,7 +62,7 @@ const handleChange = (selectedOptionParam) => {
 
   return (
     <div className='textField' style={{ width: `${width}%` }}>
-      <label htmlFor={id} className='textField--title'>{title}</label>
+      <label htmlFor={id} className='textField--title' disabled={disabled}>{title}</label>
       <Select
         inputId={id}
         name={id} 
