@@ -96,6 +96,7 @@ export default function PaymentSection({ updateData, total }) {
                     placeholder={'Selecione'}
                     value={paymentData.forma_pg}
                     onChange={(value) => handleChange('forma_pg', value)}
+                    disabled={!paymentData.meio_pg}
                 />
                 <SearchableDropdown
                     id={useId()}
@@ -104,6 +105,7 @@ export default function PaymentSection({ updateData, total }) {
                     placeholder={'Selecione'}
                     value={paymentData.parcelas}
                     onChange={(value) => handleChange('parcelas', Number(value))}
+                    disabled={!paymentData.forma_pg}
                 />
                 <PriceBox
                     id={useId()}
@@ -122,6 +124,7 @@ export default function PaymentSection({ updateData, total }) {
                     value={paymentData.valor_pago}
                     defaultValue={`R$ ${total || '0'},00`}
                     onChange={(value) => handleChange('valor_pago', value)}
+                    disabled={!paymentData.forma_pg}
                 />
                 <InputField
                     id={useId()}
@@ -129,9 +132,9 @@ export default function PaymentSection({ updateData, total }) {
                     placeholder={'Insira o código de autorização de venda'}
                     type={'text'}
                     required={false}
-                    disabled={paymentData.meio_pg === 'Caixa'}
                     value={paymentData.cod_aut}
                     onChange={(value) => handleChange('cod_aut', value)}
+                    disabled={paymentData.meio_pg === 'Caixa' || paymentData.valor_pago === 'R$ 0,00'}
                 />
                 <InputField
                     id={useId()}
@@ -141,6 +144,7 @@ export default function PaymentSection({ updateData, total }) {
                     required={false}
                     value={paymentData.observacoes}
                     onChange={(value) => handleChange('observacoes', value)}
+                    disabled={!paymentData.forma_pg}                    
                 />
             </div>
         </section>
