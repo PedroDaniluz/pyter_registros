@@ -9,7 +9,7 @@ export default function OrderView() {
 
     const [pedidoInfo, setPedidoInfo] = useState([]);
     const [pedidoItens, setPedidoItens] = useState([]);
-        
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -28,11 +28,49 @@ export default function OrderView() {
 
     return (
         <main>
-            <NavBar/>
-            <div>
-                <button onClick={() => console.table(pedidoInfo)}>a</button>
-                <button onClick={() => console.table(pedidoItens)}>b</button>
-            </div>
+            <NavBar />
+            <article className='order-view'>
+                <h1>Pedido #{pedidoInfo.id_pedido}</h1>
+                <div className='order-view__row'>
+                    <section className='order-view__card'>
+                        <div className='order-view__card__keys'>
+                            <p>Modalidade</p>
+                            <p>Situação</p>
+                            <p>Data da Nota</p>
+                            <p>Prazo de Confecção</p>
+                            <p>Previsão de Envio</p>
+                            <p>Rastreamento</p>
+                            <p>Prazo de Entrega</p>
+                        </div>
+                        <div className='order-view__card__values'>
+                            <p>{pedidoInfo.modalidade}</p>
+                            <p>{pedidoInfo.situacao}</p>
+                            <p>{pedidoInfo.data}</p>
+                            <p>{pedidoInfo.prazo}</p>
+                            <p>{pedidoInfo.data_envio !== null ? pedidoInfo.data_envio : '-'}</p>
+                            <p>{pedidoInfo.cod_rastreamento !== null ? pedidoInfo.cod_rastreamento : '-'}</p>
+                            <p>{pedidoInfo.data_entrega !== null ? pedidoInfo.data_entrega : '-'}</p>
+                        </div>
+                    </section>
+
+                    <section className='order-view__card'>
+                        <div className='order-view__card__keys'>
+                            <p>Nome</p>
+                            <p>CPF/CNPJ</p>
+                            <p>Telefone</p>
+                            <p>Email</p>
+                            <p>Endereço</p>
+                        </div>
+                        <div className='order-view__card__values'>
+                            <p>{pedidoInfo.nome}</p>
+                            <p>{pedidoInfo.cpf}</p>
+                            <p>{pedidoInfo.telefone}</p>
+                            <p>{pedidoInfo.email !== null ? pedidoInfo.email : '-'}</p>
+                            <p>{pedidoInfo.endereco !== null ? pedidoInfo.endereco : '-'}</p>
+                        </div>
+                    </section>
+                </div>
+            </article>
         </main>
     )
 }
