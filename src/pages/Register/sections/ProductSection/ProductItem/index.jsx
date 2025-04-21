@@ -175,7 +175,7 @@ export default function ProductItem({
             {product.adicionaisAtivos && (
                 <>
                     {(product.adicionais ?? []).map((adicional, index) => (
-                        <div key={adicional.id} className='stdIn--inputs'>
+                        <div key={adicional.id} className='inputCard--fields'>
                             <InputField
                                 id={`adicional-${product.id}-${adicional.id}-item`}
                                 title={'Adicional'}
