@@ -80,7 +80,10 @@ export default function ProductItem({
         if (key === 'produto' && (value === '' || value === null)) {
             product.categoria = null;
             product.material = null;
-            product.tamanho = null;}
+            product.tamanho = null;
+            product.preco_base = 0;
+            product.adicionaisAtivos = false;
+        }
         onChange(product.id, key, value);
     };
 
