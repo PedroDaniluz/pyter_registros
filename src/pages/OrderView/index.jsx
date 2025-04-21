@@ -65,7 +65,7 @@ export default function OrderView() {
                             <p>{pedidoInfo.nome}</p>
                             <p>{pedidoInfo.cpf}</p>
                             <p>{pedidoInfo.telefone}</p>
-                            <p>{pedidoInfo.email !== null ? pedidoInfo.email : '-'}</p>
+                            <p>{pedidoInfo.email !== '' ? pedidoInfo.email : '-'}</p>
                             <p>{pedidoInfo.endereco !== null ? pedidoInfo.endereco : '-'}</p>
                         </div>
                     </section>

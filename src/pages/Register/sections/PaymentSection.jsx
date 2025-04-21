@@ -23,14 +23,14 @@ const pagamento_options = {
 
 export default function PaymentSection({ updateData, total }) {
     const [paymentData, setPaymentData] = useState({
-        meio_pg: '',
-        forma_pg: '',
+        meio_pg: null,
+        forma_pg: null,
         parcelas: 1,
         desconto: 'R$ 0,00',
         valor_final: total,
         valor_pago: 'R$ 0,00',
-        cod_aut: '',
-        observacoes: ''
+        cod_aut: null,
+        observacoes: null
     });
 
     const handleChange = (key, value) => {
@@ -38,9 +38,9 @@ export default function PaymentSection({ updateData, total }) {
             ...prevState,
             [key]: value,
             ...(key === 'meio_pg' ? {
-                forma_pg: '',
+                forma_pg: null,
                 parcelas: 1,
-                cod_aut: ''
+                cod_aut: null
             } : {}),
             ...(key === 'forma_pg' ? { parcelas: 1 } : {})
         }));

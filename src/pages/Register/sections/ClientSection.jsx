@@ -3,10 +3,10 @@ import InputField from '../../../components/InputField';
 
 export default function ClientSection({ updateData }) {
     const [clientData, setClientData] = useState({
-        cpf: '',
-        nome: '',
-        telefone: '',
-        email: ''
+        cpf: null,
+        nome: null,
+        telefone: null,
+        email: null
     });
 
     const handleChange = (key, value) => {

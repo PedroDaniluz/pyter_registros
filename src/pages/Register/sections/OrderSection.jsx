@@ -5,9 +5,9 @@ import { getInstituicoes } from '../../../services/Api'
 
 export default function OrderSection({ updateData }) {
     const [orderData, setOrderData] = useState({
-        data: '',
-        prazo: '',
-        instituicao: ''
+        data: null,
+        prazo: null,
+        instituicao: null
     });
 
     const [instituicoes, setInstituicoes] = useState([]);
