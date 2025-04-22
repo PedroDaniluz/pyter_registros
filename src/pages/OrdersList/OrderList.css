@@ -17,20 +17,20 @@ main {
     margin-bottom: 32px;
 }
 
-table {
+.orderList table {
     width: 100%;
     border-radius: 6px;
     box-shadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.10), 0px 4px 6px -1px rgba(0, 0, 0, 0.10), 0px 0px 0px 1px rgba(0, 0, 0, 0.10);
     border-spacing: 0;    
 }
 
-thead, tbody tr {
+.orderList thead, tbody tr {
     display: table;
     width: 100%;
     table-layout: fixed;
 }
 
-th {
+.orderList th {
     background-color: #EFEFEF;
     font-size: 0.9rem;
     font-weight: 700;
@@ -38,7 +38,7 @@ th {
     text-align: center;
 }
 
-td {
+.orderList td {
     padding: 16px;
     font-size: 0.9rem;
     border-top: 1px solid var(--grey-stroke);
@@ -68,27 +68,27 @@ td {
     background-color: var(--grey-stroke);
 }
 
-th:nth-child(1), td:nth-child(1) {
+.orderList th:nth-child(1), td:nth-child(1) {
     width: 50px; /* ID */
 }
 
-th:nth-child(2), td:nth-child(2) {
+.orderList th:nth-child(2), td:nth-child(2) {
     width: 100px; /* Situação */
 }
 
-th:nth-child(3), td:nth-child(3) {
+.orderList th:nth-child(3), td:nth-child(3) {
     width: 150px; /* Cliente */
 }
 
-th:nth-child(4), td:nth-child(4),
-th:nth-child(5), td:nth-child(5) {
+.orderList th:nth-child(4), td:nth-child(4),
+.orderList th:nth-child(5), td:nth-child(5) {
     width: 120px; /* Data e Prazo */
 }
 
-th:nth-child(6), td:nth-child(6) {
+.orderList th:nth-child(6), td:nth-child(6) {
     width: 180px; /* Instituição */
 }
 
-th:nth-child(7), td:nth-child(7) {
+.orderList th:nth-child(7), td:nth-child(7) {
     width: 100px; /* Valor */
 }
