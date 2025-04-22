@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://54.211.52.179/api/"
+    baseURL: "http://127.0.0.1:8000/"
 });
 
 export const getInstituicoes = async () => {
@@ -53,6 +53,16 @@ export const getPedidoItens = async (id) => {
         return response.data;
     } catch (err) {
         console.error("ERRO DE API => root/pedido-itens", err);
+        return [];
+    }
+};
+
+export const getPedidoPagamentos = async (id) => {
+    try {
+        const response = await api.get(`pedido-pagamentos/${id}/`);
+        return response.data;
+    } catch (err) {
+        console.error("ERRO DE API => root/pedido-pagamentos", err);
         return [];
     }
 };
