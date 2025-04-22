@@ -26,9 +26,9 @@ export default function PaymentSection({ updateData, total }) {
         meio_pg: null,
         forma_pg: null,
         parcelas: 1,
-        desconto: 'R$ 0,00',
-        valor_final: total,
-        valor_pago: 'R$ 0,00',
+        desconto: null,
+        valor_final: null,
+        valor_pago: null,
         cod_aut: null,
         observacoes: null
     });
@@ -49,7 +49,8 @@ export default function PaymentSection({ updateData, total }) {
     useEffect(() => {
         setPaymentData(prev => ({
             ...prev,
-            valor_final: total
+            valor_final: total? Number(total).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) : 'R$ 0,00',
+            valor_pago: total? Number(total).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) : 'R$ 0,00'
         }));
     }, [total]);
 
@@ -122,7 +123,7 @@ export default function PaymentSection({ updateData, total }) {
                     mask={'currency'}
                     width={20}
                     value={paymentData.valor_pago}
-                    defaultValue={`R$ ${total || '0'},00`}
+                    defaultValue={paymentData.valor_final}
                     onChange={(value) => handleChange('valor_pago', value)}
                     disabled={!paymentData.forma_pg}
                 />
@@ -131,7 +132,7 @@ export default function PaymentSection({ updateData, total }) {
                     title={'Codigo de Autorização (Maquininhas)'}
                     placeholder={'Insira o código de autorização de venda'}
                     type={'text'}
-                    required={false}
+                    required={paymentData.meio_pg !== 'Caixa'}
                     value={paymentData.cod_aut}
                     onChange={(value) => handleChange('cod_aut', value)}
                     disabled={paymentData.meio_pg === 'Caixa' || paymentData.valor_pago === 'R$ 0,00'}
