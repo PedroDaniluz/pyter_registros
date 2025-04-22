@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://54.211.52.179/"
+    baseURL: "http://54.211.52.179/api/"
 });
 
 export const getInstituicoes = async () => {
