@@ -8,18 +8,19 @@ main {
     padding: 40px;
     display: flex;
     flex-direction: column;
+    gap: 24px;
 }
 
 .order-view h1 {
     font-family: 'Franie';
     font-weight: 600;
     font-size: 2.5rem;
-    margin-bottom: 32px;
+    margin-bottom: 8px;
 }
 
 .order-view__row {
-    display: flex;
     width: 100%;
+    display: flex;
     gap: 24px;
 }
 
@@ -29,18 +30,65 @@ main {
     border-radius: 6px;
     box-shadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.10), 0px 4px 6px -1px rgba(0, 0, 0, 0.10), 0px 0px 0px 1px rgba(0, 0, 0, 0.10);
     display: flex;
-    gap: 48px;
-}
-
-.order-view__card__keys {
-    display: flex;
     flex-direction: column;
     gap: 12px;
+    box-sizing: border-box;
+}
+
+.order-view__card__row {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+}
+
+.order-view__key {
+    width: 45%;
     font-weight: 700;
 }
 
-.order-view__card__values {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.order-view thead, tbody tr {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+}
+
+.order-view th {
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding-bottom: 12px;
+}
+
+.order-view td {
+    font-size: 1rem;
+    padding-top: 12px;
+}
+
+.order-item {
+    color: var(--grey-strong);
+    font-weight: 700;
+    padding-bottom: 4px;
+}
+
+.order-item__description {
+    font-weight: 400;
+    font-size: 0.9rem;
+    padding: 0 0 4px 16px;
+}
+
+.order-view th:nth-child(1),
+.order-view td:nth-child(1) {
+    width: 50%;
+    text-align: start;
+}
+
+.order-view th:nth-child(2),
+.order-view td:nth-child(2) {
+    width: 20%;
+    text-align: center;
+}
+
+.order-view th:nth-child(3),
+.order-view td:nth-child(3) {
+    width: 30%;
+    text-align: end;
 }

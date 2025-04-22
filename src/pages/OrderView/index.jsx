@@ -26,6 +26,13 @@ export default function OrderView() {
         fetchData();
     }, []);
 
+    function toBRL(number) {
+        return Number(number).toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+        })
+    }
+
     return (
         <main>
             <NavBar />
@@ -33,43 +40,79 @@ export default function OrderView() {
                 <h1>Pedido #{pedidoInfo.id_pedido}</h1>
                 <div className='order-view__row'>
                     <section className='order-view__card'>
-                        <div className='order-view__card__keys'>
-                            <p>Modalidade</p>
-                            <p>Situação</p>
-                            <p>Data da Nota</p>
-                            <p>Prazo de Confecção</p>
-                            <p>Previsão de Envio</p>
-                            <p>Rastreamento</p>
-                            <p>Prazo de Entrega</p>
-                        </div>
-                        <div className='order-view__card__values'>
-                            <p>{pedidoInfo.modalidade}</p>
-                            <p>{pedidoInfo.situacao}</p>
-                            <p>{pedidoInfo.data}</p>
-                            <p>{pedidoInfo.prazo}</p>
-                            <p>{pedidoInfo.data_envio !== null ? pedidoInfo.data_envio : '-'}</p>
-                            <p>{pedidoInfo.cod_rastreamento !== null ? pedidoInfo.cod_rastreamento : '-'}</p>
-                            <p>{pedidoInfo.data_entrega !== null ? pedidoInfo.data_entrega : '-'}</p>
-                        </div>
+                        {[
+                            ['Modalidade', pedidoInfo.modalidade],
+                            ['Situação', pedidoInfo.situacao],
+                            ['Data da Nota', pedidoInfo.data],
+                            ['Prazo de Confecção', pedidoInfo.prazo],
+                            ['Previsão de Envio', pedidoInfo.data_envio ?? '-'],
+                            ['Rastreamento', pedidoInfo.cod_rastreamento ?? '-'],
+                            ['Prazo de Entrega', pedidoInfo.data_entrega ?? '-'],
+                        ].map(([label, value], index) => (
+                            <div key={index} className='order-view__card__row'>
+                                <p className='order-view__key'>{label}</p>
+                                <p>{value}</p>
+                            </div>
+                        ))}
                     </section>
-
                     <section className='order-view__card'>
-                        <div className='order-view__card__keys'>
-                            <p>Nome</p>
-                            <p>CPF/CNPJ</p>
-                            <p>Telefone</p>
-                            <p>Email</p>
-                            <p>Endereço</p>
-                        </div>
-                        <div className='order-view__card__values'>
-                            <p>{pedidoInfo.nome}</p>
-                            <p>{pedidoInfo.cpf}</p>
-                            <p>{pedidoInfo.telefone}</p>
-                            <p>{pedidoInfo.email !== '' ? pedidoInfo.email : '-'}</p>
-                            <p>{pedidoInfo.endereco !== null ? pedidoInfo.endereco : '-'}</p>
-                        </div>
+                        {[
+                            ['Nome', pedidoInfo.nome],
+                            ['CPF/CNPJ', pedidoInfo.cpf],
+                            ['Telefone', pedidoInfo.telefone],
+                            ['Email', pedidoInfo.email !== '' ? pedidoInfo.email : '-'],
+                            ['Endereço', pedidoInfo.endereco !== null ? pedidoInfo.endereco : '-'],
+                        ].map(([label, value], index) => (
+                            <div key={index} className='order-view__card__row'>
+                                <p className='order-view__key'>{label}</p>
+                                <p>{value}</p>
+                            </div>
+                        ))}
                     </section>
                 </div>
+                <div className='order-view__row'>
+                    <section className='order-view__card'>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Qnt</th>
+                                    <th>Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {pedidoItens.map((item, index) =>
+                                    <tr key={index}>
+                                        <td>
+                                            <p className='order-item'>• {item.produto} {item.categoria} - {(item.tamanho).replace('-', ' ')}</p>
+                                            <p className='order-item__description'>Produto Base (unidade)</p>
+                                            {(item.adicionais).map((adicional, index) =>
+                                                <p className='order-item__description' key={index}>{adicional.adicional}</p>
+                                            )}
+                                            <p className='order-item__description'>{item.observacao}</p>
+                                        </td>
+                                        <td className='order-item'>{item.quantidade}</td>
+                                        <td>
+                                            <p className='order-item'>{toBRL(item.valor_total)}</p>
+                                            <p className='order-item__description'>{toBRL(item.preco_unitario_base)}</p>
+                                            {(item.adicionais).map((adicional, index) =>
+                                                <p className='order-item__description' key={index}>+{toBRL(adicional.valorAdicional)}</p>
+                                            )}
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </section>
+                    <div className='order-view__payment-div'>
+                        <section className='order-view__card'>
+                            <h1>aqui ultrapassa o padding do article</h1>
+                        </section>
+
+                        <section className='order-view__card'> aq tbm</section>
+                    </div>
+                </div>
+                <button onClick={() => console.table(pedidoItens)}>a</button>
             </article>
         </main>
     )
