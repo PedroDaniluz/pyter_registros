@@ -18,9 +18,29 @@ main {
     margin-bottom: 8px;
 }
 
+.order-view h2 {
+    font-weight: 700;
+    font-size: 1.4rem;
+}
+
+.order-view strong {
+    font-weight: 700;
+}
+
 .order-view__row {
     width: 100%;
     display: flex;
+    gap: 24px;
+}
+
+.order-view__row > .order-view__card {
+    align-self: flex-start;
+}
+
+.order-view__column {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
     gap: 24px;
 }
 
@@ -53,7 +73,7 @@ main {
 }
 
 .order-view th {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 700;
     padding-bottom: 12px;
 }
@@ -91,4 +111,22 @@ main {
 .order-view td:nth-child(3) {
     width: 30%;
     text-align: end;
+}
+
+.order-view__price-overview {
+    display: flex;
+    justify-content: space-between;
+}
+
+.payment-details {
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin-top: 8px;
+}
+
+.total-highlight {
+    margin-top: 12px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-left: auto;
 }

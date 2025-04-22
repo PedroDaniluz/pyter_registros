@@ -1,7 +1,7 @@
 import './OrderView.css'
 import NavBar from "../../components/NavBar";
 import { useParams } from 'react-router-dom';
-import { getPedidoInfo, getPedidoItens } from '../../services/Api';
+import { getPedidoInfo, getPedidoItens, getPedidoPagamentos } from '../../services/Api';
 import { useState, useEffect } from 'react';
 
 export default function OrderView() {
@@ -9,16 +9,19 @@ export default function OrderView() {
 
     const [pedidoInfo, setPedidoInfo] = useState([]);
     const [pedidoItens, setPedidoItens] = useState([]);
+    const [pedidoPagamentos, setPedidoPagamentos] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [pedidoInfoData, pedidoItensData] = await Promise.all([
+                const [pedidoInfoData, pedidoItensData, pedidoPagamentosData] = await Promise.all([
                     getPedidoInfo(id),
-                    getPedidoItens(id)
+                    getPedidoItens(id),
+                    getPedidoPagamentos(id)
                 ]);
                 setPedidoInfo(pedidoInfoData[0]);
                 setPedidoItens(pedidoItensData);
+                setPedidoPagamentos(pedidoPagamentosData);
             } catch (error) {
                 console.error("Erro ao buscar dados iniciais:", error);
             }
@@ -32,6 +35,13 @@ export default function OrderView() {
             currency: 'BRL',
         })
     }
+
+    function toDateBR(date) {
+        return new Date(date).toLocaleDateString('pt-BR');
+    }
+
+    const valorTotal = toBRL(pedidoItens.reduce((total, item) => total + item.valor_total, 0));
+    const valorPago = toBRL(pedidoPagamentos.reduce((total, pag) => total + parseFloat(pag.valor), 0));
 
     return (
         <main>
@@ -55,12 +65,12 @@ export default function OrderView() {
                             </div>
                         ))}
                     </section>
-                    <section className='order-view__card'>
+                    <section className='order-view__card' style={{ alignSelf: 'auto' }}>
                         {[
                             ['Nome', pedidoInfo.nome],
                             ['CPF/CNPJ', pedidoInfo.cpf],
                             ['Telefone', pedidoInfo.telefone],
-                            ['Email', pedidoInfo.email !== '' ? pedidoInfo.email : '-'],
+                            ['Email', pedidoInfo.email !== null ? pedidoInfo.email : '-'],
                             ['Endereço', pedidoInfo.endereco !== null ? pedidoInfo.endereco : '-'],
                         ].map(([label, value], index) => (
                             <div key={index} className='order-view__card__row'>
@@ -104,15 +114,34 @@ export default function OrderView() {
                             </tbody>
                         </table>
                     </section>
-                    <div className='order-view__payment-div'>
+                    <div className='order-view__column'>
                         <section className='order-view__card'>
-                            <h1>aqui ultrapassa o padding do article</h1>
+                            <h2>Total</h2>
+                            <div className='order-view__price-overview'>
+                                <strong>Produtos</strong>
+                                <p>{valorTotal}</p>
+                            </div>
+                            <p className='total-highlight'>{valorTotal}</p>
                         </section>
 
-                        <section className='order-view__card'> aq tbm</section>
+                        <section className='order-view__card'>
+                            <h2>Pagamentos</h2>
+                            {pedidoPagamentos.map((pag, index) =>
+                                <div key={index} className='order-view__price-overview'>
+                                    <div>
+                                        <strong>{pag.parcelas != 1? `${pag.forma_pagamento} em ${pag.parcelas}x`: pag.forma_pagamento}</strong>
+                                        <p className='payment-details'>{toDateBR(pag.data_pagamento)}</p>
+                                        <p className='payment-details'>{pag.cod_autorizacao? '#' + pag.cod_autorizacao: ''}</p>
+                                    </div>
+                                    <p>{toBRL(pag.valor)}</p>
+                                </div>
+                            )}
+                            <p className='total-highlight'>{valorPago}</p>
+
+                        </section>
                     </div>
                 </div>
-                <button onClick={() => console.table(pedidoItens)}>a</button>
+                <button onClick={() => console.log(pedidoPagamentos)}>a</button>
             </article>
         </main>
     )
