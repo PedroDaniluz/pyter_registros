@@ -36,9 +36,9 @@ export default function Register() {
                     data_pedido: orderData.data,
                     data_prazo: orderData.prazo,
                     id_instituicao: orderData.instituicao,
-                    modalidade: "PR",
+                    modalidade: "Presencial",
                     id_situacao: 1,
-                    observacao: "",
+                    observacao: null,
                     valor_total: parseFloat(valorTotal),
                     valor_pago: parseFloat(paymentData.valor_pago.replace(/[^\d,.-]/g, "").replace(",", ".")),
                 },
@@ -67,7 +67,7 @@ export default function Register() {
                     meio_pagamento: paymentData.meio_pg,
                     forma_pagamento: paymentData.forma_pg,
                     valor: parseFloat(paymentData.valor_pago.replace(/[^\d,.-]/g, "").replace(",", ".")),
-                    cod_autorizacao: paymentData.cod_aut || ""
+                    cod_autorizacao: paymentData.cod_aut || null
                 }
             };
 
