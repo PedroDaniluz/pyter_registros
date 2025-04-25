@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { getVariacoes } from '../../../../services/Api';
 import ProductItem from './ProductItem';
 
 const createEmptyProduct = () => ({
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     produto: null,
     id_variacao: null,
     quantidade: 1,
@@ -99,7 +100,7 @@ export default function ProductSection({ updateData }) {
     const addAdicional = (productId) => {
         setProducts(prevProducts => prevProducts.map(product => {
             if (product.id === productId) {
-                const newAdicionais = [...(product.adicionais ?? []), { id: crypto.randomUUID(), adicional: '', valorAdicional: '' }];
+                const newAdicionais = [...(product.adicionais ?? []), { id: uuidv4(), adicional: '', valorAdicional: '' }];
                 return { ...product, adicionais: newAdicionais };
             }
             return product;
@@ -146,7 +147,7 @@ export default function ProductSection({ updateData }) {
 
                 if (isActive) {
                     if ((updatedProduct.adicionais ?? []).length === 0) {
-                        updatedProduct.adicionais = [{ id: crypto.randomUUID(), adicional: '', valorAdicional: 'R$ 0,00' }];
+                        updatedProduct.adicionais = [{ id: uuidv4(), adicional: '', valorAdicional: 'R$ 0,00' }];
                     }
                 } else {
                     updatedProduct.adicionais = [];
