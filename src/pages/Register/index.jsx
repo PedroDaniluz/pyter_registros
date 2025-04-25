@@ -102,7 +102,7 @@ export default function Register() {
                     updateData={(value) => updateData('payment', value)}
                     total={valorTotal}
                 />
-                <SubmitButton onclick={submit} text={'Registrar Pedido'}/>
+                <SubmitButton onClick={submit} text={'Registrar Pedido'}/>
             </form>
         </main>
     )

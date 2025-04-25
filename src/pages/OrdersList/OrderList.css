@@ -47,7 +47,7 @@ main {
 
 
 .pagination {
-    margin-top: 16px;
+    margin-top: auto;
     display: flex;
     justify-content: center;
     align-items: center;
