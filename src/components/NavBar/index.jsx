@@ -2,37 +2,37 @@ import { Link } from 'react-router-dom';
 import './NavBar.css'
 
 import logo from '/src/assets/images/pyterLogo.svg'
-import homeIcon from '/src/assets/images/icons/darkVariants/home.svg'
-import cartIcon from '/src/assets/images/icons/darkVariants/cart.svg'
-import addIcon from '/src/assets/images/icons/darkVariants/add.svg'
-import storeIcon from '/src/assets/images/icons/darkVariants/store.svg'
+import { RiHome2Fill } from "react-icons/ri";
+import { RiShoppingCart2Fill } from "react-icons/ri";
+import { RiAddCircleFill } from "react-icons/ri";
+import { RiStore2Fill } from "react-icons/ri";
 
 export default function NavBar() {
     return (
         <nav className="navBar">
             <img src={ logo } alt="" className="logo"/>
             <ul>
-                <li>
-                    <Link to={'/'}>
-                        <img src={ homeIcon } alt="Ícone de casa"/>
+                <li> 
+                    <Link to={'/'} className='navLink'>
+                        <RiHome2Fill className='navIcon'/>
                         <span>Home</span>
                     </Link>
                 </li>
                 <li>
-                    <Link to={'/order-list'}>
-                        <img src={ cartIcon } alt="Ícone de carrinho"/>
+                    <Link to={'/order-list'} className='navLink'>
+                        <RiShoppingCart2Fill className='navIcon'/>
                         <span>Pedidos</span>
                     </Link>
                 </li>
                 <li>
-                    <Link to={'/register'}>
-                        <img src={ addIcon } alt="Ícone de adição"/>
+                    <Link to={'/register'} className='navLink'>
+                        <RiAddCircleFill className='navIcon'/>
                         <span>Registrar Pedido</span>
                     </Link>
                 </li>
                 <li>
-                    <Link to={'/product-manager'}>
-                        <img src={ storeIcon } alt="Ícone de loja"/>
+                    <Link to={'/product-manager'} className='navLink' style={{alignItems: 'start'}}>
+                        <RiStore2Fill className='navIcon'/>
                         <span>Gerenciar Produtos</span>
                     </Link>
                 </li>

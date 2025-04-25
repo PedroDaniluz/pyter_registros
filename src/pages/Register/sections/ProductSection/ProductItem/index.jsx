@@ -3,7 +3,8 @@ import InputField from '../../../../../components/InputField';
 import SearchableDropdown from '../../../../../components/DropDown';
 import SwitchButton from '../../../../../components/SwitchButton';
 import PriceBox from '../../../../../components/PriceBox';
-import removeIcon from '../../../../../assets/images/icons/darkVariants/remove.svg';
+
+import { RiCloseCircleFill } from "react-icons/ri";
 
 export default function ProductItem({
     product,
@@ -94,7 +95,7 @@ export default function ProductItem({
     return (
         <div className="product-inputs">
             <button type='button' onClick={() => onRemove(product.id)} className='remove-btn'>
-                <img src={removeIcon} alt="icone de X" />
+                <RiCloseCircleFill className='remove-btn'/>
             </button>
 
             <div className='inputCard--fields'>

@@ -17,7 +17,6 @@
     font-size: 1rem;
     color: var(--grey-strong);
     text-decoration: none;
-    display: inline;
 }
 
 .navBar ul {
@@ -26,7 +25,13 @@
     gap: 32px;
 }
 
-.navBar ul img {
-    height: 1rem;
+.navLink {
+    display: flex;
+    align-items: center;
+}
+
+
+.navIcon {
+    font-size: 1.25rem;
     margin-right: 8px;
 }
