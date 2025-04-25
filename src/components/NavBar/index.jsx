@@ -1,32 +1,38 @@
 import { Link } from 'react-router-dom';
 import './NavBar.css'
 
+import logo from '/src/assets/images/pyterLogo.svg'
+import homeIcon from '/src/assets/images/icons/darkVariants/home.svg'
+import cartIcon from '/src/assets/images/icons/darkVariants/cart.svg'
+import addIcon from '/src/assets/images/icons/darkVariants/add.svg'
+import storeIcon from '/src/assets/images/icons/darkVariants/store.svg'
+
 export default function NavBar() {
     return (
         <nav className="navBar">
-            <img src="/src/assets/images/pyterLogo.svg" alt="" className="logo"/>
+            <img src={ logo } alt="" className="logo"/>
             <ul>
                 <li>
                     <Link to={'/'}>
-                        <img src="/src/assets/images/icons/darkVariants/home.svg" alt="Ícone de casa"/>
+                        <img src={ homeIcon } alt="Ícone de casa"/>
                         <span>Home</span>
                     </Link>
                 </li>
                 <li>
                     <Link to={'/order-list'}>
-                        <img src="/src/assets/images/icons/darkVariants/cart.svg" alt="Ícone de carrinho"/>
+                        <img src={ cartIcon } alt="Ícone de carrinho"/>
                         <span>Pedidos</span>
                     </Link>
                 </li>
                 <li>
                     <Link to={'/register'}>
-                        <img src="/src/assets/images/icons/darkVariants/add.svg" alt="Ícone de adição"/>
+                        <img src={ addIcon } alt="Ícone de adição"/>
                         <span>Registrar Pedido</span>
                     </Link>
                 </li>
                 <li>
                     <Link to={'/product-manager'}>
-                        <img src="/src/assets/images/icons/darkVariants/store.svg" alt="Ícone de loja"/>
+                        <img src={ storeIcon } alt="Ícone de loja"/>
                         <span>Gerenciar Produtos</span>
                     </Link>
                 </li>
