@@ -6,6 +6,7 @@ import ProductSection from './sections/ProductSection/index'
 import { useState } from 'react'
 import { registrarPedidoCompleto } from '../../services/Api'
 import PaymentSection from './sections/PaymentSection'
+import SubmitButton from '../../components/SubmitButton'
 
 export default function Register() {
     const [paymentData, setPaymentData] = useState();
@@ -101,7 +102,7 @@ export default function Register() {
                     updateData={(value) => updateData('payment', value)}
                     total={valorTotal}
                 />
-                <button type='submit'>salvar</button>
+                <SubmitButton onclick={submit} text={'Registrar Pedido'}/>
             </form>
         </main>
     )

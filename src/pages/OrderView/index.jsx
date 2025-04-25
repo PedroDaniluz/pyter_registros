@@ -3,6 +3,7 @@ import NavBar from "../../components/NavBar";
 import { useParams } from 'react-router-dom';
 import { getPedidoInfo, getPedidoItens, getPedidoPagamentos } from '../../services/Api';
 import { useState, useEffect } from 'react';
+import SubmitButton from '../../components/SubmitButton';
 
 export default function OrderView() {
     const { id } = useParams();
@@ -65,7 +66,7 @@ export default function OrderView() {
                             </div>
                         ))}
                     </section>
-                    <section className='order-view__card' style={{ alignSelf: 'auto' }}>
+                    <section className='order-view__card'>
                         {[
                             ['Nome', pedidoInfo.nome],
                             ['CPF/CNPJ', pedidoInfo.cpf],
@@ -81,7 +82,7 @@ export default function OrderView() {
                     </section>
                 </div>
                 <div className='order-view__row'>
-                    <section className='order-view__card'>
+                    <section className='order-view__card' style={{ alignSelf: 'flex-start' }}>
                         <table>
                             <thead>
                                 <tr>
@@ -115,7 +116,7 @@ export default function OrderView() {
                         </table>
                     </section>
                     <div className='order-view__column'>
-                        <section className='order-view__card'>
+                        <section className='order-view__card' style={{ alignSelf: 'flex-start' }}>
                             <h2>Total</h2>
                             <div className='order-view__price-overview'>
                                 <strong>Produtos</strong>
@@ -124,7 +125,7 @@ export default function OrderView() {
                             <p className='total-highlight'>{valorTotal}</p>
                         </section>
 
-                        <section className='order-view__card'>
+                        <section className='order-view__card' style={{ alignSelf: 'flex-start' }}>
                             <h2>Pagamentos</h2>
                             {pedidoPagamentos.map((pag, index) =>
                                 <div key={index} className='order-view__price-overview'>
@@ -141,7 +142,7 @@ export default function OrderView() {
                         </section>
                     </div>
                 </div>
-                <button onClick={() => console.log(pedidoPagamentos)}>a</button>
+                <SubmitButton text={'Imprimir Pedido'}/>
             </article>
         </main>
     )

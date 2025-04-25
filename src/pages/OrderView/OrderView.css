@@ -33,10 +33,6 @@ main {
     gap: 24px;
 }
 
-.order-view__row > .order-view__card {
-    align-self: flex-start;
-}
-
 .order-view__column {
     width: 40%;
     display: flex;
@@ -66,6 +62,8 @@ main {
     font-weight: 700;
 }
 
+
+/*START - ORDER ITEMS TABLE*/
 .order-view thead, tbody tr {
     width: 100%;
     display: table;
@@ -112,7 +110,10 @@ main {
     width: 30%;
     text-align: end;
 }
+/*END - ORDER ITEMS TABLE*/
 
+
+/*START - PRICE AND PAYMENT OVERVIEW*/
 .order-view__price-overview {
     display: flex;
     justify-content: space-between;
@@ -130,3 +131,4 @@ main {
     font-weight: 700;
     margin-left: auto;
 }
+/*END - PRICE AND PAYMENT OVERVIEW*/
