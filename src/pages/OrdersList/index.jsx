@@ -17,7 +17,7 @@ export default function OrderList() {
     useEffect(() => {
         const fetchListaPedidos = async () => {
             try {
-                await new Promise(resolve => setTimeout(resolve, 500));
+                await new Promise(resolve => setTimeout(resolve, 100)); // Simula um atraso de 100ms - teste de loading
                 const data = await getPedidos();
                 setListaPedidos(data);
             } catch (error) {

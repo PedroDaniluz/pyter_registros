@@ -25,7 +25,7 @@ export default function NavBar() {
                     </Link>
                 </li>
                 <li>
-                    <Link to={''}>
+                    <Link to={'/product-manager'}>
                         <img src="/src/assets/images/icons/darkVariants/store.svg" alt="Ícone de loja"/>
                         <span>Gerenciar Produtos</span>
                     </Link>

@@ -1,7 +1,7 @@
-import './Home.css'
+import './ProductManager.css'
 import NavBar from "../../components/NavBar";
 
-export default function Home() {
+export default function ProductManager() {
     return (
         <main>
             <NavBar/>
