@@ -5,6 +5,8 @@ import { getPedidoInfo, getPedidoItens, getPedidoPagamentos } from '../../servic
 import { useState, useEffect } from 'react';
 import SubmitButton from '../../components/SubmitButton';
 
+import { RiAddCircleFill, RiEditCircleFill, RiPrinterFill } from "react-icons/ri";
+
 export default function OrderView() {
     const { id } = useParams();
 
@@ -65,6 +67,7 @@ export default function OrderView() {
                                 <p>{value}</p>
                             </div>
                         ))}
+                        <SubmitButton marginTop={'12px'} type='stroke' text='Editar dados do pedido' icon={<RiEditCircleFill />} />
                     </section>
                     <section className='order-view__card'>
                         {[
@@ -79,6 +82,7 @@ export default function OrderView() {
                                 <p>{value}</p>
                             </div>
                         ))}
+                        <SubmitButton marginTop={'auto'} type='stroke' text='Editar dados do cliente' icon={<RiEditCircleFill />} />
                     </section>
                 </div>
                 <div className='order-view__row'>
@@ -114,6 +118,7 @@ export default function OrderView() {
                                 )}
                             </tbody>
                         </table>
+                        <SubmitButton marginTop={'12px'} type='stroke' text='Editar itens' icon={<RiEditCircleFill/>} />
                     </section>
                     <div className='order-view__column'>
                         <section className='order-view__card' style={{ alignSelf: 'flex-start' }}>
@@ -130,19 +135,19 @@ export default function OrderView() {
                             {pedidoPagamentos.map((pag, index) =>
                                 <div key={index} className='order-view__price-overview'>
                                     <div>
-                                        <strong>{pag.parcelas != 1? `${pag.forma_pagamento} em ${pag.parcelas}x`: pag.forma_pagamento}</strong>
+                                        <strong>{pag.parcelas != 1 ? `${pag.forma_pagamento} em ${pag.parcelas}x` : pag.forma_pagamento}</strong>
                                         <p className='payment-details'>{toDateBR(pag.data_pagamento)}</p>
-                                        <p className='payment-details'>{pag.cod_autorizacao? '#' + pag.cod_autorizacao: ''}</p>
+                                        <p className='payment-details'>{pag.cod_autorizacao ? '#' + pag.cod_autorizacao : ''}</p>
                                     </div>
                                     <p>{toBRL(pag.valor)}</p>
                                 </div>
                             )}
                             <p className='total-highlight'>{valorPago}</p>
-
+                            <SubmitButton marginTop={'12px'} type='stroke' text='Adicionar pagamento' icon={<RiAddCircleFill />} />
                         </section>
                     </div>
                 </div>
-                <SubmitButton text={'Imprimir Pedido'}/>
+                <SubmitButton marginTop={'auto'} text={'Imprimir Pedido'} icon={<RiPrinterFill />} />
             </article>
         </main>
     )
